@@ -766,7 +766,7 @@ if tmp[1]=='FULL_SMS' or tmp[1]=='STATUS_OK' then
 	if values.软件版本 == '0' then
 		验证码 = string.sub(res,1,4) 		--4位数验证码 
 	else
-		验证码 = string.sub(res,1,6) 
+		验证码 = string.sub(res,1,6) 		--6位数验证码 
 	end
 	mSleep(1000)
 	return 验证码

@@ -310,15 +310,37 @@ function 浏览器输入网站()
         打开应用("org.mozilla.ios.Firefox",1000)
     	mSleep(3000)
         while (true) do
-            local 当前界面=检索界面(INS注册界面列表)
+            local 当前界面=检索界面(火狐浏览器界面列表)
          	if 当前界面 == "火狐浏览器首次登录页面" then
          	    mSleep(1000)
          	    tap(火狐浏览器首次登录X,火狐浏览器首次登录Y)
          	    mSleep(2000)
         	elseif 当前界面 == "火狐浏览器设备共享页面" then
          	    mSleep(1000)
-         	    tap(火狐浏览器设备共享页面开始浏览器X,火狐浏览器设备共享页面开始浏览器Y)
-         	    mSleep(2000)         	  
+         	    tap(346,1286)
+         	    mSleep(2000)      
+        	elseif 当前界面 == "火狐浏览器底部搜索界面" then
+     	        mSleep(1000)
+     	        tap(677,179) --点击空白位置，收起弹框
+     	        mSleep(2000)
+     	        tap(676,1287) --点击设置图标
+     	        mSleep(1000)
+     	  	elseif 当前界面 == "火狐浏览器设置界面" then
+     	  	    mSleep(1000)
+     	  	    tap(281,1194)  --点击设置
+     	  	    mSleep(2000)
+     	  	elseif 当前界面 == "火狐浏览器设置内部界面" then   	  
+  	  	        mSleep(1000)
+  	  	        tap(446,947) --点击 ToolBar
+  	  	        mSleep(1000)
+  	  	        tap(276,220) --点击 top
+  	  	        mSleep(2000)
+ 	  	        
+  	  	        tap(84,82)   --点击返回
+  	  	        mSleep(2000)
+  	  	        tap(665,85)  --点击done
+  	  	        mSleep(2000)
+  	  	        toast("火狐设置完成")
          	else
          	    break
          	end
@@ -338,8 +360,6 @@ function 浏览器输入网站()
         mSleep(1000)
     end
 end
-
-
 
 
 function INS浏览器注册()
