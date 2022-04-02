@@ -414,6 +414,8 @@ function 获取国家代码()
         return '1'
     elseif new[2]=='22' then--印度
         return '91'
+    elseif new[2]=='6' then--印度
+        return '62'        
     elseif new[2]=='0' then--俄罗斯
         return '7'
     elseif new[2]=='12' then--美国虚拟
@@ -776,18 +778,17 @@ else
 end
 end
 
-
 --记录账号信息到本地--
 function 记录账号信息()
-    --如果是手机号——记录手机号码、token，用于排查未注册的账号，仅做记录功能
+--      如果是手机号——记录手机号码、token，用于排查未注册的账号，仅做记录功能
 --   	dialog("进入流程")
 --    	dialog(电话号码)
-    --	mSleep(1000)
+--    	mSleep(1000)
 --    	dialog(获取验证码地址)
 --    	dialog(名字)
 --    	dialog(密码)
-    --	mSleep(1000)
-	--  新增区号记录
+--    	mSleep(1000)
+--	    新增区号记录
 	tim = getNetTime();
 	时间 = os.date("%Y年%m月%d日")
 	mSleep(3000)
@@ -812,40 +813,41 @@ end
 -------------移动cookies文件------------
 function 移动cookies()
     
-谷歌浏览器数据路径 = appDataPath("com.google.chrome.ios");   
-谷歌浏览器cookie文件路径 = 谷歌浏览器数据路径..'/Library/Cookies/'
-
-火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox");   
-火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'/Library/Cookies/'
-
-creatflag = ts.hlfs.makeDir('/private/var/mobile/INSCookies/') --新建文件夹
-function movefile(path,to)
-    os.execute("mv "..path.." "..to);
-end
---1、检测指定文件是否存在
-function file_exists(file_name)
-    local f = io.open(file_name, "r")
-    return f ~= nil and f:close()
-end
---定义cookies文件的保存路径
-    local 老路径
-    if values.脚本功能 == '1' then
-        老路径 = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
-    elseif values.脚本功能 == '2' then
-         老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
-    else
-        mSleep(1000)
-        dialog("暂时不支持此类型")
+    creatflag = ts.hlfs.makeDir('/private/var/mobile/Media/INSCookies/')  --新建文件夹
+    
+    function movefile(path,to)
+        os.execute("mv "..path.." "..to);
     end
---oldpath = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
-oldpath = 老路径
-newpath = '/private/var/mobile/INSCookies/'..随机用户名()..'.binarycookies'
-bool = file_exists(oldpath)
-if bool then
-    mSleep(2000)
-    movefile(oldpath,newpath)
-    toast("cookies文件已经保存")
-else
-    dialog("文件不存在")
-end
+    
+    --1、检测指定文件是否存在
+    function file_exists(file_name)
+        local f = io.open(file_name, "r")
+        return f ~= nil and f:close()
+    end
+    
+    --定义cookies文件的保存路径
+        local 老路径
+        if values.脚本功能 == '1' then
+            谷歌浏览器数据路径 = appDataPath("com.google.chrome.ios")  
+            谷歌浏览器cookie文件路径 = 谷歌浏览器数据路径..'Library/Cookies'
+            老路径 = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
+        elseif values.脚本功能 == '2' then 
+            火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")
+            火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'Library/Cookies'
+             老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
+        else
+            mSleep(1000)
+            dialog("暂时不支持此类型")
+        end
+    
+    oldpath = 老路径
+    newpath = '/private/var/mobile/Media/INSCookies/'..随机用户名()..'.binarycookies'
+    bool = file_exists(oldpath)
+    if bool then
+        mSleep(2000)
+        movefile(oldpath,newpath)
+        toast("cookies文件已经保存")
+    else
+        dialog("文件不存在")
+    end
 end

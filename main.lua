@@ -25,51 +25,19 @@ local 上传头像 = values.上传头像
 local 手动获取代理 = values.手动获取代理
 local 代理链接 = values.代理链接
 local 号码地区 = values.号码地区
+--local 手机型号 = values.手机型号
 
 require("基础函数")
 require("功能函数")
 require("逻辑函数")
 
-
 local thread = require('thread')
-
---防锁屏
-setAutoLockTime(0)
-
+setAutoLockTime(0)  --防锁屏
 
 --ui设置
 if UIret == 1 then
 	mSleep(1000)
 function 全局设置()
-	---判断代理是否填写  VPN操作---
-	if values.手动获取代理 == 'on' then  		--------手动设置S5代理------
-		toast("手动设置代理已经开启")
-		mSleep(500)
-		关闭VPN()
-		删除手动设置的代理()
-		获取S5代理()
-		手动设置代理()
-		切换VPN()
-		打开VPN()
-	else
-		关闭VPN()
-		切换VPN()
-		打开VPN()
-	end				
-
-	-------------2、软件适配------------
-	if values.使用软件 == '0' then  		
-		启动爱新机()
-		mSleep(1000)
-		一键新机()
-		mSleep(5000)
-	elseif values.使用软件 == '1' then  
-	    PyApp新机坐标版本()
-	     mSleep(1000)
-	else
-		mSleep(1000)
-	end
-	
     ----判断间隔时间是否大于等于60------	
     if tonumber(values.注册间隔) < 60 then
         dialog("为保证流程正常运行，间隔时间应该大于等于【60】秒",{title = "参数设置错误",button = "退出重新设置"})
@@ -77,6 +45,7 @@ function 全局设置()
     else
         mSleep(100)
     end
+    
     ----判断放卡时间是否大于等于300------
     if tonumber(values.防卡时间) < 300 then
         dialog("为保证流程正常运行，防卡时间应该大于等于 5 分钟",{title = "参数设置错误",button = "退出重新设置"})
@@ -85,7 +54,7 @@ function 全局设置()
         mSleep(100)
     end
     ---判断手机号接口的填写是否合法--------
-    if values.电话号接口 ~= '' and values.电话号接口2 ~= '' and values.电话号接口3 ~= '' then
+    if values.电话号接口 ~= '' and values.电话号接口2 ~= '' and values.电话号接口3 ~= '' and values.电话号接口4 ~= '' then
         dialog("接口地址填写有误，请确保三项地址三选一,脚本退出",{title = "地址设置错误",button = "退出重新编辑"})
         lua_exit()
     else
@@ -104,11 +73,41 @@ function 全局设置()
     if values.文件名称 == '' then
         toast("昵称随机",1)
         mSleep(500)
-else 
-    toast("指定本地昵称文件",1)
-    mSleep(500)
-end			
+    else 
+        toast("指定本地昵称文件",1)
+        mSleep(500)
+    end
+    
+---判断代理是否填写  VPN操作--- 
+	if values.手动获取代理 == 'on' then  		--------手动设置S5代理------
+		toast("手动设置代理已经开启")
+		mSleep(500)
+		关闭VPN()
+		删除手动设置的代理()
+		获取S5代理()
+		手动设置代理()
+		切换VPN()
+		打开VPN()
+	else
+		关闭VPN()
+		切换VPN()
+		打开VPN()
+	end				
+
+-------------软件适配------------
+	if values.使用软件 == '0' then  		
+		启动爱新机()
+		mSleep(1000)
+		一键新机()
+		mSleep(5000)
+	elseif values.使用软件 == '1' then  
+	    PyApp新机坐标版本()
+	     mSleep(1000)
+	else
+		mSleep(1000)
+	end
 end
+
 
 function 流程()
 	if values.脚本功能 == '0' then 		----以下是APP注册账号的主要流程----------
@@ -129,7 +128,7 @@ function 流程()
 			mSleep(1000)
 		end
 		
-	else 	   ----以下是浏览器注册账号的主要流程----------
+	else 	                            ----以下是浏览器注册账号的主要流程----------
 		toast("当前功能为--INS--浏览器注册",1)
 		mSleep(500)
        	全局设置()
@@ -137,7 +136,7 @@ function 流程()
 		INS浏览器注册()
 		--全局变量1=1     --注册成功
 		记录账号信息()  --记录注册成功的账号到本地
-		移动cookies()   --移动cookie文件到指定目录 /private/var/mobile/INSCookies
+		移动cookies()   --移动cookie文件到指定目录  /private/var/mobile/Media/INSCookies
 		if values.上传头像 == 'on' then 
 			设置头像()
 		else

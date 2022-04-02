@@ -10,10 +10,10 @@ function 切换VPN()--启动小火箭  --判定打开VPN  --切换VPM  -- 判定
 	end
 	for var= 1,10 do --小火箭开关开启
 --		if (isColor( 643,  204, 0x2473bd, 85)) then  --旧版本
-		if (isColor( 612,  209, 0x2372bd, 85)) then
+		if (isColor( 612,  209, 0x2372bd, 85)) then  --6以上版本
 			break
 		else
-			tap(643,204)
+			tap(622,205)
 			mSleep(2000)
 		end
 	end
@@ -30,18 +30,17 @@ function 切换VPN()--启动小火箭  --判定打开VPN  --切换VPM  -- 判定
 		for var= 1,10 do
 			随机节点序=math.random(0,节点数量-1)--去重复，万一随机的还是那个呢
 --			if (isColor(13,581+随机节点序*88,0xff9400,85)) then      --旧版本
-            if (isColor(  43,  638+随机节点序*88, 0xff9400, 85)) then  --页面适配    
+            if (isColor(  43,  638+随机节点序*88, 0xff9400, 85)) then   --6以上版本
 			else
 				break
 			end
 		end 
 --		tap(325,574+随机节点序*88)    --旧版本
-		tap(346,627+随机节点序*88) 
+		tap(346,627+随机节点序*88)    --6以上版本
 		mSleep(2000) 
 	end
 	--判断有没有网络
 end
-
 
 ------------------------------------------------
 
@@ -108,8 +107,13 @@ function INSAPP注册()
 			mSleep(500)
 		elseif 当前界面 =='浏览器允许保存cookie页面' then
 		    mSleep(1000)
-		    tap(允许所有X+math.random(1,5),允许所有Y+math.random(1,5))
-		    mSleep(500)
+		    touchDown(373,1058)
+		    mSleep(100)
+		    touchUp(373,1058)
+		    mSleep(1000)		    
+		  --  mSleep(1000)
+		  --  tap(373,1058,80,"click_point_5_2.png",1)    --浏览器可以点击，但是无法跳过，待解决
+		  --  mSleep(500)
 		elseif 当前界面 == "INS注册手机号注册界面" then
 			mSleep(500)
 			if values.号码地区 == '0' then 
@@ -287,6 +291,9 @@ function 浏览器输入网站()
     		      -- tap(不同步按钮X,不同步按钮Y)
     		      tap(132,1270)
         		   mSleep(2000)
+        		elseif 当前界面 == "google浏览器添加账户界面" then
+     		      tap(137,1268)
+        		   mSleep(2000)
         		elseif  当前界面 == "google浏览器登录界面" then
         		   mSleep(2000)
     		       --tap(google浏览器登录X,google浏览器登录Y)
@@ -308,39 +315,64 @@ function 浏览器输入网站()
     	    end
     elseif values.脚本功能 == '2' then
         打开应用("org.mozilla.ios.Firefox",1000)
-    	mSleep(3000)
+    	mSleep(6000)    --注意延时，主要是用于规避应用是否卡顿或者闪退
         while (true) do
             local 当前界面=检索界面(火狐浏览器界面列表)
          	if 当前界面 == "火狐浏览器首次登录页面" then
-         	    mSleep(1000)
-         	    tap(火狐浏览器首次登录X,火狐浏览器首次登录Y)
+         	    mSleep(2000)
+         	    tap(367,1248,80,"click_point_5_2.png",1)
          	    mSleep(2000)
         	elseif 当前界面 == "火狐浏览器设备共享页面" then
-         	    mSleep(1000)
-         	    tap(346,1286)
-         	    mSleep(2000)      
+         	    mSleep(2000)
+         	    tap(346,1286,80,"click_point_5_2.png",1)
+         	    mSleep(2000)
         	elseif 当前界面 == "火狐浏览器底部搜索界面" then
-     	        mSleep(1000)
-     	        tap(677,179) --点击空白位置，收起弹框
      	        mSleep(2000)
-     	        tap(676,1287) --点击设置图标
+     	        tap(677,179,80,"click_point_5_2.png",1) --点击空白位置，收起弹框
+     	        mSleep(2000)
+     	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置图标
+     	        mSleep(1000)
+     	  	elseif 当前界面 == "火狐浏览器底部搜索界面2" then
+     	  	    mSleep(2000)
+     	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置图标
      	        mSleep(1000)
      	  	elseif 当前界面 == "火狐浏览器设置界面" then
-     	  	    mSleep(1000)
-     	  	    tap(281,1194)  --点击设置
+     	  	    mSleep(2000)
+     	  	    tap(281,1194,80,"click_point_5_2.png",1)  --点击设置
      	  	    mSleep(2000)
      	  	elseif 当前界面 == "火狐浏览器设置内部界面" then   	  
+  	  	        mSleep(2000)
+  	  	        tap(446,947,80,"click_point_5_2.png",1) --点击 ToolBar
   	  	        mSleep(1000)
-  	  	        tap(446,947) --点击 ToolBar
-  	  	        mSleep(1000)
-  	  	        tap(276,220) --点击 top
+  	  	        tap(276,220,80,"click_point_5_2.png",1) --点击 top
   	  	        mSleep(2000)
  	  	        
-  	  	        tap(84,82)   --点击返回
+  	  	        tap(84,82,80,"click_point_5_2.png",1)   --点击返回
   	  	        mSleep(2000)
-  	  	        tap(665,85)  --点击done
+  	  	        tap(665,85,80,"click_point_5_2.png",1)  --点击done
   	  	        mSleep(2000)
   	  	        toast("火狐设置完成")
+     	  	elseif 当前界面 == "火狐浏览器设置内部界面2" then
+     	  	    mSleep(2000)
+     	  	    tap(453,1222,80,"click_point_5_2.png",1) --点击 ToolBar
+  	  	        mSleep(1000)
+  	  	        tap(276,220,80,"click_point_5_2.png",1) --点击 top
+  	  	        mSleep(2000)     	  	   
+   	  	        tap(84,82,80,"click_point_5_2.png",1)   --点击返回
+  	  	        mSleep(2000)
+  	  	        tap(665,85,80,"click_point_5_2.png",1)  --点击done
+  	  	        mSleep(2000)
+  	  	        toast("火狐设置完成2")	  	        
+     	  --	elseif 当前界面 == "未知界面" then   	  
+  	  	  --      mSleep(2000)
+            elseif 当前界面 == "火狐浏览器顶部设置界面" or 当前界面 == "火狐浏览器顶部设置界面2" then
+                mSleep(2000)
+                输入文本2(445,103,"www.instagram.com")
+                mSleep(1000)
+                tap(684,1273,80,"click_point_5_2.png",1)
+                mSleep(2000)
+                toast("火狐设置完成2")
+                break
          	else
          	    break
          	end
@@ -366,6 +398,7 @@ function INS浏览器注册()
 	--打开INS应用  自动进入到了INS注册主界面  
     while (true) do
 		local 当前界面=检索界面(INS注册界面列表)
+	--	dialog("text")
 		if  当前界面 == "google浏览器主页界面" then     --输入地址，需要优化
         	mSleep(2000)
             输入文本(357,501,"www.instagram.com")
@@ -400,12 +433,12 @@ function INS浏览器注册()
                 tap(154,552)    --点击选择地区按钮
                 mSleep(500)
                 if values.脚本功能 =='1' then 
-                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"India")
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Indonesia")
                     mSleep(2000)
                     tap(236,447)    --点击印尼
                     mSleep(500)
                 elseif values.脚本功能 =='2' then 
-                    输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"India")
+                    输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"Indonesia")
                     mSleep(2000)
                     tap(236,373)    --点击印尼
                     mSleep(500)
@@ -584,37 +617,45 @@ function INS浏览器注册()
     ------google---------
         elseif 当前界面 == "google浏览器ins注册首页界面" then
             tap(google浏览器ins注册按钮X,google浏览器ins注册按钮Y)
+            mSleep(2000)
+        elseif 当前界面 == "浏览器ins登录界面2" then
+            mSleep(1000)
+            tap(517,868)        
             mSleep(1000)
 		elseif 当前界面 == "google浏览器ins注册手机号界面" then   --shipei
-			mSleep(500)
-			 if values.号码地区 == '0' then 
-                tap(154,552)    --点击选择地区按钮
-                mSleep(500)
-                输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"India")
-                tap(314,367)    --点击印尼
-                mSleep(500)
-            elseif values.号码地区 == '1' then 
-                tap(154,552)    --点击选择地区按钮
-                mSleep(500)
-                输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Russia")
-                tap(175,357)    --点击俄罗斯
-                mSleep(500)
-            elseif values.号码地区 == '2' then 
-                tap(154,552)    --点击选择地区按钮
-                mSleep(500)
-                输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"United")
-                tap(381,581)    --点击美国
-                mSleep(500)
-           elseif values.号码地区 == '3' then 
-                tap(154,552)    --点击选择地区按钮
-                mSleep(500)
-                输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Cambodia")
-                tap(219,363)  --点击柬埔寨
-                mSleep(500)
-            else 
-                mSleep(500)
-            end
-		    mSleep(1000)
+			mSleep(1000)
+			tap(154,552)    --点击选择地区按钮
+			mSleep(2000)
+			if 当前界面 == "INS浏览器选择国家地区界面" then 
+    			 if values.号码地区 == '0' then 
+                    mSleep(500)
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"India")
+                    tap(314,367)    --点击印尼
+                    mSleep(500)
+                elseif values.号码地区 == '1' then 
+--                    tap(154,552)    --点击选择地区按钮
+                    mSleep(500)
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Russia")
+                    tap(175,357)    --点击俄罗斯
+                    mSleep(500)
+                elseif values.号码地区 == '2' then 
+--                    tap(154,552)    --点击选择地区按钮
+                    mSleep(500)
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"United")
+                    tap(381,581)    --点击美国
+                    mSleep(500)
+               elseif values.号码地区 == '3' then 
+ --                   tap(154,552)    --点击选择地区按钮
+                    mSleep(500)
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Cambodia")
+                    tap(219,363)  --点击柬埔寨
+                    mSleep(500)
+                else 
+                    mSleep(500)
+               end
+            else
+		         mSleep(1000)
+		    end
 			if values.接口序=='0' then
 				电话号码=获取电话号码()
 			elseif values.接口序=='1' then
@@ -631,7 +672,7 @@ function INS浏览器注册()
 			判断是否离开该界面(INS注册界面列表,'INS注册手机号界面')
         elseif 当前界面 == "google浏览器用户名不可用界面" then
             tap(点击GOBACK按钮X,点击GOBACK按钮Y)
-            mSleep(3000)			
+            mSleep(3000)
             tap(367,500)
             mSleep(2000)
         elseif 当前界面 == "google浏览器重新设置用户名界面" then
@@ -640,8 +681,11 @@ function INS浏览器注册()
             mSleep(2000)
             tap(414,619) --点击 Next
             mSleep(1000)
-        elseif 当前界面 == "google浏览注册error页面" then
+        elseif 当前界面 == "google浏览注册error页面" or 当前界面 == "浏览器人机检测页面" or 当前界面 == "浏览器验证码失败页面" or 当前界面 == "浏览器网络连接错误界面"  or 当前界面 == "浏览器人机检测页面2"  then
             全局变量1=3  --出错页面直接重新开始
+            mSleep(1000)
+        elseif 当前界面 == "浏览器手机号失败界面" then
+            全局变量1=2  --释放号码
             mSleep(1000)
          elseif 当前界面=='未知界面' then
              mSleep(2000)
@@ -654,9 +698,10 @@ function INS浏览器注册()
         else
            
         end
-    	mSleep(1000)
+        
     end
 end
+
 
 
 
