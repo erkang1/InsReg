@@ -25,7 +25,6 @@ local 上传头像 = values.上传头像
 local 手动获取代理 = values.手动获取代理
 local 代理链接 = values.代理链接
 local 号码地区 = values.号码地区
---local 手机型号 = values.手机型号
 
 require("基础函数")
 require("功能函数")

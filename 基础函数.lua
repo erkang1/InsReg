@@ -63,10 +63,13 @@ while (true) do
 	if 获取的界面~=指定界面 then
 		return true
 	else
-		toast('未离开',1)
-		mSleep(1000)
-	end
-end
+    	for var=1,5 do
+    	    toast('未离开',1)
+    		mSleep(2000)
+    	end
+	    全局变量1=3
+    end
+    end
 end
 
 function 输入文本(输入框X,输入框Y,输入内容)--会先清空文本，内容必须为文本

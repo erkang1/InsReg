@@ -415,7 +415,8 @@ function INS浏览器注册()
 		    mSleep(500)
 	    elseif 当前界面 == "google浏览注册界面2" then
 		    mSleep(500)
-		    tap(注册界面2X,注册界面2Y)
+		    --tap(注册界面2X,注册界面2Y)
+		    tap(567,1091)
 		    mSleep(500)
 		elseif 当前界面 == "INS浏览器报错界面" or 当前界面 == "INS浏览器网络报错界面"  then
 		    mSleep(500)
@@ -462,13 +463,13 @@ function INS浏览器注册()
                 tap(154,552)    --点击选择地区按钮
                 mSleep(500)
                 if values.脚本功能 =='1' then 
-                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"United States")
-                    tap(290,357)    --点击美国
+                    输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"United")
+                    tap(402,581)   --点击美国
                     mSleep(500)
                 elseif values.脚本功能 =='2' then 
-                    输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"United States")
+                    输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"United")
                     mSleep(2000)
-                    tap(236,373)    --点击美国
+                    tap(402,581)    --点击美国
                     mSleep(500)
                 end
                 
@@ -503,7 +504,7 @@ function INS浏览器注册()
 			mSleep(1000)
 			tap(534,697)	--next 按钮
 			mSleep(5000)
-			if (isColor(220, 438, 0xed4956, 90)) then
+			if (isColor(220, 438, 0xed4956, 90)) then  --环境出错，线程结束并释放号码
                 toast("行为出错，重新开始脚本")
                 mSleep(1000)
                 全局变量1=2 
@@ -523,10 +524,6 @@ function INS浏览器注册()
 		   -- tap(INS浏览器ResendSMSX,INS浏览器ResendSMSY)
 		    mSleep(1000)
 			local 验证码
--- 			for var= 1,7 do
--- 				tap(630,1276)
--- 				mSleep(500)
--- 			end
 			mSleep(1000)	
 			if values.接口序=='0' then
 				验证码=获取验证码()
@@ -544,6 +541,7 @@ function INS浏览器注册()
 			输入文本2(355+math.random(1,10),492+math.random(1,10),验证码)
 			tap(365,615)
 			mSleep(8000)
+
         elseif  当前界面 == "INS浏览器设置用户名界面" then
             if values.文件名称 == '' then
                 mSleep(500)
@@ -591,10 +589,12 @@ function INS浏览器注册()
             tap(364+math.random(0,10),949+math.random(0,10))
             mSleep(1000)
             
-         elseif  当前界面 == "INS浏览器确认用户名界面" or  当前界面 == "INS浏览器确认用户名界面2" then
+        elseif  当前界面 == "INS浏览器确认用户名界面" or  当前界面 == "INS浏览器确认用户名界面2" then
           tap(INS浏览器确认用户名NEXTX,INS浏览器确认用户名NEXTY)
           mSleep(1000)
-           
+        elseif  当前界面 == "浏览器长名字界面" then
+          tap(426+math.random(0,10),584+math.random(0,10))
+          mSleep(1000)  
         elseif  当前界面 == "INS浏览器授权facebook界面" then
           tap(INS浏览器授权facebookt跳过X,INS浏览器授权facebookt跳过Y)
           mSleep(1000)
@@ -614,10 +614,15 @@ function INS浏览器注册()
           mSleep(1000)
           tap(369,908)
           mSleep(2000)
+          
+          
+          
     ------google---------
-        elseif 当前界面 == "google浏览器ins注册首页界面" then
-            tap(google浏览器ins注册按钮X,google浏览器ins注册按钮Y)
-            mSleep(2000)
+        elseif 当前界面 == "google浏览器ins注册首页界面" then                 
+            --tap(google浏览器ins注册按钮X,google浏览器ins注册按钮Y) 
+            tap(416+math.random(5,10),891+math.random(5,10))
+            mSleep(3000)
+            判断是否离开该界面(INS注册界面列表,'google浏览器ins注册首页界面')            --需要配置的界面
         elseif 当前界面 == "浏览器ins登录界面2" then
             mSleep(1000)
             tap(517,868)        
@@ -698,7 +703,6 @@ function INS浏览器注册()
         else
            
         end
-        
     end
 end
 

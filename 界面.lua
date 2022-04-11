@@ -24,28 +24,6 @@ MyTable = {
     pages       =
     {
         { 
-            -- {
-            --     ["type"] = "Label",
-            --     ["align"] = "center",
-            --     ["text"] = "手机型号:",
-            --     ["size"] = 15, 
-            --     ["align"] = "left",          
-            --     ["valign"] = "center", 
-            --     ["color"] = "0,0,0",           
-            --     ["width"] = -1,
-            --     ["nowrap"] = 1,
-            -- },
-            -- {
-            --     ["type"] = "RadioGroup",            
-            --     -- 必填，控件类型，单选组合
-            --     ["id"] = "手机型号",                      
-            --     -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
-            --     ["list"] = "Iphne6,6S-7-8",     	 -- 必填，无，多选组合内容
-            --     --                ["list"] = "登录,注册",     		 -- 必填，无，多选组合内容
-            --     ["select"] = "1",                  	 -- 选填，0，默认选中项 id
-            --     -- 选填，无， 单选组合选项显示图片
-            --     ["countperline"] = 0,			
-            -- },
             {
                 ["type"] = "Label",
                 ["align"] = "center",
@@ -393,7 +371,7 @@ MyTable = {
             },	        
             {
                 ["type"] = "Label", 
-                ["text"] = "说明：\n 1、适配6s/7/8 ",
+                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上",
                 ["size"] = 12, 
                 ["align"] = "left",          
                 ["valign"] = "center", 

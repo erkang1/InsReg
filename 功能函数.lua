@@ -778,6 +778,12 @@ else
 end
 end
 
+
+
+
+
+
+
 --记录账号信息到本地--
 function 记录账号信息()
 --      如果是手机号——记录手机号码、token，用于排查未注册的账号，仅做记录功能
@@ -833,7 +839,7 @@ function 移动cookies()
             老路径 = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
         elseif values.脚本功能 == '2' then 
             火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")
-            火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'Library/Cookies'
+            火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'/Library/Cookies'
              老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
         else
             mSleep(1000)
