@@ -761,7 +761,7 @@ for var= 1,20 do
 end
 
 tmp=webdata:split(':')
-local res,_ = webdata:gsub("%D+","")    	--使用正则匹配验证码  目前测试 适配16.6.5版本4位数验证码
+local res,_ = webdata:gsub("%D+","")    	--使用正则匹配验证码
 
 if tmp[1]=='FULL_SMS' or tmp[1]=='STATUS_OK' then
 	发送状态4('6')
@@ -777,8 +777,6 @@ else
 	全局变量1=2
 end
 end
-
-
 
 
 
@@ -840,7 +838,7 @@ function 移动cookies()
         elseif values.脚本功能 == '2' then 
             火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")
             火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'/Library/Cookies'
-             老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
+            老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
         else
             mSleep(1000)
             dialog("暂时不支持此类型")

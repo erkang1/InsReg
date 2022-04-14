@@ -106,14 +106,17 @@ function INSAPP注册()
 			tap(注册按钮X+math.random(1,10),注册按钮Y+math.random(1,10))
 			mSleep(500)
 		elseif 当前界面 =='浏览器允许保存cookie页面' then
-		    mSleep(1000)
-		    touchDown(373,1058)
-		    mSleep(100)
-		    touchUp(373,1058)
-		    mSleep(1000)		    
 		  --  mSleep(1000)
-		  --  tap(373,1058,80,"click_point_5_2.png",1)    --浏览器可以点击，但是无法跳过，待解决
+		  --  touchDown(374,1055)
+		  --  mSleep(50)
+		  --  touchUp(374,1055)
+		  --  mSleep(1000)	
+		  
+		  --  mSleep(1000)
+		  --  tap(374,1055,70,"click_point_5_2.png",1)      --浏览器可以点击，但是无法跳过，待解决  --目前方案重新开始
 		  --  mSleep(500)
+		  mSleep(1000)
+		  全局变量1=3
 		elseif 当前界面 == "INS注册手机号注册界面" then
 			mSleep(500)
 			if values.号码地区 == '0' then 
@@ -444,7 +447,6 @@ function INS浏览器注册()
                     tap(236,373)    --点击印尼
                     mSleep(500)
                 end
-                
             elseif values.号码地区 == '1' then 
                 tap(154,552)    --点击选择地区按钮
                 mSleep(500)
@@ -486,8 +488,7 @@ function INS浏览器注册()
                     tap(236,373)    --点击 柬埔寨
                     mSleep(500)
                 end
-               
-            else 
+            else
                 mSleep(500)
             end
 		    mSleep(1000)
@@ -614,9 +615,18 @@ function INS浏览器注册()
           mSleep(1000)
           tap(369,908)
           mSleep(2000)
-          
-          
-          
+		elseif 当前界面 =='浏览器允许保存cookie页面' then
+		    mSleep(1000)
+		    tap(374,1055,70,"click_point_5_2.png",1)     
+		    mSleep(500)
+		elseif 当前界面 =='浏览器允许保存cookie页面2' then
+		    mSleep(1000)
+		    tap(383,1004,70,"click_point_5_2.png",1)    
+		    mSleep(500)   
+		elseif 当前界面 =='浏览器允许保存cookie页面3' then
+		    mSleep(1000)
+		    tap(409,878,70,"click_point_5_2.png",1)    
+		    mSleep(500) 		    
     ------google---------
         elseif 当前界面 == "google浏览器ins注册首页界面" then                 
             --tap(google浏览器ins注册按钮X,google浏览器ins注册按钮Y) 
@@ -689,8 +699,8 @@ function INS浏览器注册()
         elseif 当前界面 == "google浏览注册error页面" or 当前界面 == "浏览器人机检测页面" or 当前界面 == "浏览器验证码失败页面" or 当前界面 == "浏览器网络连接错误界面"  or 当前界面 == "浏览器人机检测页面2"  then
             全局变量1=3  --出错页面直接重新开始
             mSleep(1000)
-        elseif 当前界面 == "浏览器手机号失败界面" then
-            全局变量1=2  --释放号码
+        elseif 当前界面 == "浏览器手机号失败界面" or 当前界面 == "手机号出错界面"  then
+            全局变量1=2  --释放号码 并重启脚本
             mSleep(1000)
          elseif 当前界面=='未知界面' then
              mSleep(2000)
