@@ -11,7 +11,7 @@ while (true) do
 	r = runApp(包名) 
 	mSleep(打开时间)
 	if r == 0 then
-		toast("打开成功",1)
+		--toast("打开成功",1)
 		return 0
 	end
 end

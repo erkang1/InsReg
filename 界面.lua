@@ -21,6 +21,7 @@ MyTable = {
     ["config"] = "peizhi.txt",  
     --["timer"] = 120,  
     ["rettype"] = "table",
+    ["bg"] = "bg.png",
     pages       =
     {
         { 
@@ -42,11 +43,57 @@ MyTable = {
                 -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
                 ["list"] = "APP,谷歌,火狐",     	 -- 必填，无，多选组合内容
                 --                ["list"] = "登录,注册",     		 -- 必填，无，多选组合内容
-                ["select"] = "0",                  	 -- 选填，0，默认选中项 id
+                ["select"] = "2",                  	 -- 选填，0，默认选中项 id
                 ["images"] = "ins.png,ins2.png,ins3.png", 
                 -- 选填，无， 单选组合选项显示图片
                 ["scale"] = 0.15,                    -- 选填，1，图片缩放比例
                 ["countperline"] = 0,			
+            },
+            {
+                ["type"] = "Label",
+                ["align"] = "center",
+                ["text"] = "系统版本:",
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,
+            },
+            {
+                ["type"] = "RadioGroup",            
+                -- 必填，控件类型，单选组合
+                ["id"] = "系统版本",                      
+                -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
+                ["list"] = "IOS-12,其他版本",      -- 必填，无，多选组合内容
+                ["select"] = "1",                   -- 选填，0，默认选中项 id
+                --["images"] = "test1.png,test1.png,test1.png,test1.png", 
+                -- 选填，无， 单选组合选项显示图片
+                ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
+                ["countperline"] = 0,
+            },
+            {
+                ["type"] = "Label",
+                ["align"] = "center",
+                ["text"] = "注册类型:",
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,
+            },
+            {
+                ["type"] = "RadioGroup",            
+                -- 必填，控件类型，单选组合
+                ["id"] = "注册类型",                      
+                -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
+                ["list"] = "翠球邮箱,手机接码",      -- 必填，无，多选组合内容
+                ["select"] = "1",                   -- 选填，0，默认选中项 id
+                --["images"] = "test1.png,test1.png,test1.png,test1.png", 
+                -- 选填，无， 单选组合选项显示图片
+                ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
+                ["countperline"] = 0,
             },
             {
                 ["type"] = "Label",
@@ -63,7 +110,7 @@ MyTable = {
                 ["type"] = "ComboBox",               
                 ["id"] = "使用软件",                  
                 --["prompt"] = "300毫秒", 
-                ["list"] = "AXJ,PYAPP",
+                ["list"] = "AXJ,PYAPP,OnePress",
                 ["select"] = 1,
                 --["list"] = "地址1:http://45.207.44.6:12345/v2/api/get/phone?name=,地址2:sms-activate.ru/cn",
                 ["color"] = "0,0,0",
@@ -118,7 +165,7 @@ MyTable = {
             {
                 ["type"] = "Label",
                 ["align"] = "center",
-                ["text"] = "手动获取S5代理:",
+                ["text"] = "手动获取代理:",
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -159,6 +206,53 @@ MyTable = {
                 ["width"] = 500,
                 ["nowrap"] = 0,
             },
+
+            -- {
+            --     ["type"] = "Label", 
+            --     ["text"] = "start_time:",        
+            --     ["size"] = 15, 
+            --     ["align"] = "left",          
+            --     ["valign"] = "center", 
+            --     ["color"] = "0,0,0",           
+            --     ["width"] = -1,
+            --     ["nowrap"] = 1,--下个控件不换行
+            -- },
+            -- {
+            --     ["type"] = "Edit",               
+            --     ["id"] = "start_time",                 
+            --     --["prompt"] = "2000", 
+            --     ["text"] = "2022-05-20",
+            --     ["kbtype"] = "number",  
+            --     ["color"] = "0,0,0",   
+            --     ["size"] = 15, 
+            --     ["align"] = "",           
+            --     ["valign"] = "top",   
+            --     ["width"] = 480,
+            --     ["nowrap"] = 0,
+            -- },
+            -- {
+            --     ["type"] = "Label", 
+            --     ["text"] = "end_time:",        
+            --     ["size"] = 15, 
+            --     ["align"] = "left",          
+            --     ["valign"] = "center", 
+            --     ["color"] = "0,0,0",           
+            --     ["width"] = -1,
+            --     ["nowrap"] = 1,--下个控件不换行
+            -- },
+            -- {
+            --     ["type"] = "Edit",               
+            --     ["id"] = "end_time",                 
+            --     --["prompt"] = "2000", 
+            --     ["text"] = "2022-05-21",
+            --     ["kbtype"] = "number",  
+            --     ["color"] = "0,0,0",   
+            --     ["size"] = 15, 
+            --     ["align"] = "",           
+            --     ["valign"] = "top",   
+            --     ["width"] = 480,
+            --     ["nowrap"] = 0,
+            -- },
             {
                 ["type"] = "Label", 
                 ["text"] = "注册数量:",        
@@ -368,10 +462,81 @@ MyTable = {
                 ["valign"] = "top",   
                 ["width"] = 500,
                 ["nowrap"] = 0,
-            },	        
+            },
+        
+        ----翠球邮箱参数-----
             {
                 ["type"] = "Label", 
-                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上",
+                ["text"] = "脆球密钥:",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "脆球密钥",                 
+                --["prompt"] = "2000", 
+                ["text"] = "b334398cd5ca459f8c7f0d1c1ba4ad7d",
+                ["kbtype"] = "number",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15, 
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 500,
+                ["nowrap"] = 0,
+            },
+            {
+                ["type"] = "Label", 
+                ["text"] = "mail_id    :",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "mail_id",                 
+                --["prompt"] = "2000", 
+                ["text"] = "eRv0R9eRWZ",
+                ["kbtype"] = "number",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15, 
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 500,
+                ["nowrap"] = 0,
+            },
+            {
+                ["type"] = "Label", 
+                ["text"] = "domain_id:",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,     --下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "domain_id",                 
+                --["prompt"] = "2000", 
+                ["text"] = "RG5YbepWDz",
+                ["kbtype"] = "number",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15, 
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 480,
+                ["nowrap"] = 0,
+            },        
+            {
+                ["type"] = "Label", 
+                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上 \n 2、chrome浏览器待更新适配，仅支持火狐浏览器 \n 若是邮箱注册，请保证当前时区是美区时间",
                 ["size"] = 12, 
                 ["align"] = "left",          
                 ["valign"] = "center", 

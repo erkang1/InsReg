@@ -85,7 +85,7 @@ function 图鉴打码()
         return "/var/mobile/Media/TouchSprite"	--填写触动实际路径
     end
 
-    function ttScreen(x1,y1,x2,y2,scale) -- 此处为触动截图方法
+    function ttScreen(x1,y1,x2,y2,scale)  -- 此处为触动截图方法
         scale=scale or 1
         local path=userPath().."/res/ttshu.png"
         snapshot("ttshu.png",x1,y1,x2,y2,scale)
@@ -107,7 +107,7 @@ function 图鉴打码()
     end
     for var=1,20 do
         mSleep(200)
-        if isColor(135,853,0xffc1c1) then  --判断打码是否成功
+        if isColor(135,853,0xffc1c1) then   --判断打码是否成功
             --打码失败
             bool = tt.ReportError2(id) 
             toast('打码失败',1) 
@@ -119,13 +119,13 @@ end
 function 随机账号密码()
     local 域名集={'gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com'}
     local ret=获取随机字符(5,9)
-    账号=ret..'@'..域名集[math.random(1,5)]   -------这个是随机出来的邮箱账号
+    账号=ret..'@'..域名集[math.random(1,5)]    -------这个是随机出来的邮箱账号
     local ret1=获取随机字符(5,8)
     --密码=ret1..'a1.' --随机密码
 
     --密码= 'qqq111...'
-    密码 = values.指定密码   --指定密码，如果没有指定密码，那么随机一个密码
-    if 密码 == '' then 
+    密码 = values.指定密码    --指定密码，如果没有指定密码，那么随机一个密码
+    if 密码 == '' then
         密码=ret1..'a1.'
     else
         mSleep(1000)
@@ -136,15 +136,23 @@ end
 function 随机用户名()
     local str1 ="abcdefghijklmnopqrstuvwxyz0123456789"
     local options = {
-        ["tstab"] = 1, 
+        ["tstab"] = 1,
         ["num"] = math.random(6,10),
     }
     local ret=getRndStr(str1,options)
     return ret
 end
 
+-- function 随机用户名()
+--     local str1 ="_ab_cd_efgh_ijkl_mn_opqr_s_tuv_wxy_z012_34_5678_9"
+--     local options = {
+--         ["tstab"] = 1,
+--         ["num"] = math.random(8,10),
+--     }
+--     local ret=getRndStr(str1,options)
+--     return ret
+-- end
 
---erkang--随机用户昵称
 function 随机用户昵称()
     local str1 ="abcdefghijklmnopqrstuvwxyz"
     local options = {
@@ -202,20 +210,27 @@ function 获取S5代理()
      -- 获取S5接口 = "https://coralip.com/api/v2/getIP?username=pps_erkang&password=pzhuondvwb&protocol=0&count=1&region=&keep_time=2&type=text"    --珊瑚IP
     --格式：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
     local webdata=httpGet(获取S5接口)
-    --dialog(webdata)
-    local strs1 = webdata:split("//")  --分割前缀
-    local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
-    local strs3 = strs2[1]:split(":")  --分割账号 密码
-    local strs4 = strs2[2]:split(":")  --分割IP 端口
-
-    代理账号 = strs3[1]
-    代理密码 = strs3[2]
-    代理IP = strs4[1]
-    代理端口 = strs4[2]
-
+    --dialog(tostring(webdata))
+    if tostring(webdata) =='false' then
+        for var=1 , 5 do
+            mSleep(5000)
+            toast("正在获取代理...")
+        end
+        toast("获取代理失败")
+        全局变量1 = 4
+    else
+        local strs1 = webdata:split("//")  --分割前缀
+        local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
+        local strs3 = strs2[1]:split(":")  --分割账号  密码
+        local strs4 = strs2[2]:split(":")  --分割IP 端口
+        代理账号 = strs3[1]
+        代理密码 = strs3[2]
+        代理IP = strs4[1]
+        代理端口 = strs4[2]
     --dialog("账号密码："..strs2[1].."IP端口"..strs2[2])
     --dialog("账号:"..strs3[1].."密码："..strs3[2])
     --dialog("IP:"..strs4[1].."端口:"..strs4[2])
+    end
 end
 
 function 手动设置代理()
@@ -223,11 +238,11 @@ function 手动设置代理()
     mSleep(500)
     打开应用("com.liguangming.Shadowrocket",500)
     mSleep(1000)
-    tap(695,82)  --点击加号
-    mSleep(500)
-    tap(485,208)  --点击类型
+    tap(695,82,80,"click_point_5_2.png",1)  --点击加号
     mSleep(1000)
-    tap(362,773)  --点击Socks5
+    tap(485,208,80,"click_point_5_2.png",1)  --点击类型
+    mSleep(1000)
+    tap(362,773,80,"click_point_5_2.png",1)  --点击Socks5
     mSleep(1000)
     --开始输入
     --tap(226,360) --点击地址
@@ -246,21 +261,38 @@ function 手动设置代理()
     tap( 680,83) --点击完成
 end
 
+function 检查代理连通状态()
+    for var= 1,10 do
+        local webdata = httpGet("http://www.google.com/")             --获取谷歌网页数据
+        toast(tostring(webdata).."，网络无法连接，正在重试...")
+        if  webdata and webdata ~= "" then
+            toast("网络正常，开始运行")
+            break
+        else
+            --dialog("网络连通异常")
+            全局变量1=4
+        end
+    end
+    mSleep(3000)
+end
+
 function 删除手动设置的代理()
+    mSleep(2000)
     if (isColor( 682,  551, 0xc4c4c6, 85)) then  --如果找到色块，则返回 true
-        --dialog("111")
+        toast("无代理节点")
         mSleep(1000)
         return true
     else
         关闭应用("com.liguangming.Shadowrocket")
-        mSleep(500)
+        mSleep(1000)
         打开应用("com.liguangming.Shadowrocket",500)
         mSleep(1000)
-        moveTo(552,  553,486,  548,{["step"] = 20,["ms"] = 70,["index"] = 1,["stop"] = 1})  --滑动显示删除
+        moveTo(552,  553,486,  548,{["step"] = 30,["ms"] = 70,["index"] = 1,["stop"] = 1})  --滑动显示删除
         mSleep(1000)
-        tap(  641,  555) --滑动之后点击删除
+        tap(  641,  555)  --滑动之后点击删除
         mSleep(1000)
         tap( 510,  763) --点击删除
+        mSleep(2000)
     end
 end
 ---------------------------------------------------------------------------------------------------------------------------------------
@@ -484,11 +516,6 @@ function 获取国家代码()
     end
 end
 
-function 发送状态(状态)--string , 1-通知已发送短信   6.激活成功   8.激活失败
-    --wet= httpGet('https://sms-activate.ru/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)     --原地址
-    wet= httpGet('https://api.sms-activate.org/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)
-end
-
 function 获取手机号和ID2()
     获取KEY值()
     国家代码=获取国家代码()
@@ -520,6 +547,11 @@ function 获取手机号和ID2()
     end
 end
 
+function 发送状态(状态)--string ,   1-通知已发送短信   6.激活成功   8.激活失败
+    --wet= httpGet('https://sms-activate.ru/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)     --原地址
+    wet= httpGet('https://api.sms-activate.org/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='.. 激活ID)
+end
+
 function 获取验证码2()
     local webdata,tmp,验证码
     for var= 1,14 do 
@@ -527,7 +559,7 @@ function 获取验证码2()
         --webdata = httpGet('https://sms-activate.ru/stubs/handler_api.php?api_key='..api_key值..'&action=getFullSms&id='..激活ID,5)			--原地址
         --	if webdata=='STATUS_WAIT_CODE' or webdata== false then
         if webdata == 'STATUS_WAIT_CODE' or webdata == "STATUS_WAIT_RETRY" or webdata == false then	
-            toast("正在获取验证码")
+            toast("正在获取验证码中...")
             mSleep(5000)
         else
           -- toast("获取验证码失败")
@@ -719,7 +751,7 @@ new = tostring(wet):split(":")
 --dialog("获取到的号码状态："..wet)
 while (true) do
 	if new[1]=='ACCESS_NUMBER' then 
-		激活ID=new[2]
+		激活ID4=new[2]
 		电话号码=string.gsub(new[3],国家代码4,"",1):atrim()
 --	dialog("电话号码:"..电话号码)
 		mSleep(1000)
@@ -741,13 +773,13 @@ end
 end
 
 function 发送状态4(状态)--string ,1-通知已发送短信   6.激活成功   8.激活失败
-wet= httpGet('http://api1.5sim.net/stubs/handler_api.php?api_key='..sim_api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)
+wet= httpGet('http://api1.5sim.net/stubs/handler_api.php?api_key='..sim_api_key值..'&action=setStatus&status='..状态..'&id='..激活ID4)
 end
 
 function 获取验证码4()
 local webdata,tmp,验证码
 for var= 1,20 do 
-	webdata = httpGet('http://api1.5sim.net/stubs/handler_api.php?api_key='..sim_api_key值..'&action=getStatus&id='..激活ID,5)
+	webdata = httpGet('http://api1.5sim.net/stubs/handler_api.php?api_key='..sim_api_key值..'&action=getStatus&id='..激活ID4,5)
 	if webdata == 'STATUS_WAIT_CODE' or webdata == "STATUS_WAIT_RETRY" then	
 		mSleep(3000)
 	else
@@ -779,8 +811,111 @@ end
 end
 
 
+--------翠球邮箱注册------------
+function 获取邮箱列表()  --所属邮箱
+header_send = {typeget = "iOS"}
+body_send = {
+["token"] = values.脆球密钥,
+["domain_id"] = values.domain_id,
+["page"] = "1",
+["limit"] = "1",
+}
+ts.setHttpsTimeOut(60) 
+code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/mail/list", header_send, body_send)
+--dialog(body_resp,0)
+end
 
+function 获取email列表()   --邮件的列表
+tim = getNetTime(); 		
+time_year = os.date("%Y",tim)			--格式化 time 值获取年份
+time_M = os.date("%m",tim) 		 	    --格式化 time 值获取月份
+time_D = os.date("%d",tim) 		 	    --格式化 time 值获取天
 
+time_H = os.date("%H",tim)
+time_HZ = time_H+15
+time_HE = time_HZ+24
+if time_HE >24 then
+    time_D = time_D+1
+    time_HE = time_HE-24
+end
+start_time = ((os.date("%Y-%m-%d "..time_HZ..":%M:%S",tim)):split(" "))[1]
+end_time = ((os.date("%Y-%m-" ..time_D.. " ".. time_HE ..":%M:%S",tim)):split(" "))[1]
+-- toast(start_time)
+-- toast(end_time)
+
+header_send = {typeget = "iOS"}
+body_send = {
+["token"] = values.脆球密钥,
+["mail_id"] = values.mail_id,
+["domain_id"] = values.domain_id,
+["start_time"] = start_time,
+["end_time"] = end_time
+}
+
+for var=1,3 do   --等待List刷新
+    toast("正在等待返回邮箱列表...",3)
+    mSleep(3000)
+end
+
+ts.setHttpsTimeOut(60)
+for var=1,10 do
+code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/list", header_send, body_send)
+--dialog("进入获取【email列表】流程"..body_resp,0)
+local 分割数据 = body_resp:split(":")
+EmailAll =分割数据[14]
+local Email = (EmailAll:split(","))[1]
+--dialog(Email)
+local res,_ = Email:gsub('"',"") 
+返回邮箱号码 = string.sub(res,1,20)
+--dialog(邮箱号码)
+--return 返回邮箱号码
+    toast("对比邮箱："..邮箱号码.."-----"..返回邮箱号码)
+    mSleep(3000)
+    if 邮箱号码 == 返回邮箱号码 then
+        toast("账号一致，开始获取box_id",2)
+        local id所在区域 = 分割数据[7]
+        --dialog("id所在区域"..id所在区域)
+        local res,_ = id所在区域:gsub("%D+","") 
+        Box_id = string.sub(res,1,7)
+        --dialog("Box_id："..Box_id)
+        return Box_id
+    else
+        toast("未获取到指定邮箱数据，或者账号不一致")
+        mSleep(1000)
+    end
+end
+全局变量1=2
+end
+
+function 获取email内容()
+获取email列表()
+header_send = {typeget = "iOS"}
+body_send = {
+                ["token"] = values.脆球密钥,
+                ["mail_id"] = values.mail_id,
+                ["box_id"] = Box_id,
+            }
+ts.setHttpsTimeOut(160) 
+code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/detail", header_send, body_send)
+--dialog("进入获取email流程："..body_resp)
+local tmp = json.decode(body_resp)
+local reg_all = tmp.data.content.subject
+--dialog(reg_all)
+local res,_ = reg_all:gsub('%D+',"")
+验证码 = string.sub(res,1,6)
+toast("获取到验证码:"..验证码)
+return 验证码
+end
+
+function 随机脆球后缀()
+local str1 ="abcdefghijklmnopqrstuvwxyz"
+local options = {
+	["tstab"] = 1, 
+	["num"] = math.random(2,5),
+}
+local ret=getRndStr(str1,options)
+return ret
+end
 
 --记录账号信息到本地--
 function 记录账号信息()
@@ -796,6 +931,7 @@ function 记录账号信息()
 	tim = getNetTime();
 	时间 = os.date("%Y年%m月%d日")
 	mSleep(3000)
+if values.注册类型 =="1" then
 	local 区号
 	if values.号码地区 == '0' then  --印尼
 		区号 = '+62'
@@ -808,10 +944,14 @@ function 记录账号信息()
 	end
 	记录内容 = tostring(区号).."|".. tostring(电话号码).."|".. tostring(获取验证码地址).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. tostring(时间)
 	--dialog("电话号码:"..电话号码)
+elseif values.注册类型 =="0" then
+    记录内容 = tostring(返回邮箱号码).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. tostring(时间)
+end
 	mSleep(1000)
 	记录数据('INS--已注册手机号.log',记录内容)
 	toast("已经记录信息")
 	mSleep(2000)
+
 end
 
 -------------移动cookies文件------------
@@ -845,7 +985,9 @@ function 移动cookies()
         end
     
     oldpath = 老路径
-    newpath = '/private/var/mobile/Media/INSCookies/'..随机用户名()..'.binarycookies'
+    -- newpath = '/private/var/mobile/Media/INSCookies/'..随机用户名()..'.binarycookies'
+    -- dialog(名字)
+    newpath = '/private/var/mobile/Media/INSCookies/'..名字..'.binarycookies'
     bool = file_exists(oldpath)
     if bool then
         mSleep(2000)
