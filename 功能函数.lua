@@ -832,16 +832,18 @@ time_M = os.date("%m",tim) 		 	    --格式化 time 值获取月份
 time_D = os.date("%d",tim) 		 	    --格式化 time 值获取天
 
 time_H = os.date("%H",tim)
-time_HZ = time_H+15
-time_HE = time_HZ+24
-if time_HE >24 then
-    time_D = time_D+1
-    time_HE = time_HE-24
+
+time_HA = time_H+15   --洛杉矶时区
+if time_HA>24 then        -- H 超过24小时，则日期增加一天
+    time_HZ = time_HA-15  
+    time_DM = time_D+1
 end
-start_time = ((os.date("%Y-%m-%d "..time_HZ..":%M:%S",tim)):split(" "))[1]
-end_time = ((os.date("%Y-%m-" ..time_D.. " ".. time_HE ..":%M:%S",tim)):split(" "))[1]
--- toast(start_time)
--- toast(end_time)
+time_DMA = time_DM+1
+
+start_time = (os.date("%Y-%m-".. time_DM.. " " .. time_HZ..":%M:%S",tim):split(" "))[1]
+end_time = (os.date("%Y-%m-" ..time_DMA.. " ".. time_HZ ..":%M:%S",tim):split(" "))[1]
+--dialog(start_time)
+--dialog(end_time)
 
 header_send = {typeget = "iOS"}
 body_send = {
@@ -852,13 +854,13 @@ body_send = {
 ["end_time"] = end_time
 }
 
-for var=1,3 do   --等待List刷新
-    toast("正在等待返回邮箱列表...",3)
-    mSleep(3000)
-end
+-- for var=1,3 do   --等待List刷新
+--     toast("正在等待返回邮箱列表...",3)
+--     mSleep(3000)
+-- end
 
 ts.setHttpsTimeOut(60)
-for var=1,10 do
+for var=1,15 do
 code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/list", header_send, body_send)
 --dialog("进入获取【email列表】流程"..body_resp,0)
 local 分割数据 = body_resp:split(":")
@@ -880,7 +882,7 @@ local res,_ = Email:gsub('"',"")
         --dialog("Box_id："..Box_id)
         return Box_id
     else
-        toast("未获取到指定邮箱数据，或者账号不一致")
+        toast("重新获取数据，未获取到指定邮箱数据")
         mSleep(1000)
     end
 end
@@ -911,7 +913,7 @@ function 随机脆球后缀()
 local str1 ="abcdefghijklmnopqrstuvwxyz"
 local options = {
 	["tstab"] = 1, 
-	["num"] = math.random(2,5),
+	["num"] = math.random(2,7),
 }
 local ret=getRndStr(str1,options)
 return ret
@@ -928,8 +930,8 @@ function 记录账号信息()
 --    	dialog(密码)
 --    	mSleep(1000)
 --	    新增区号记录
-	tim = getNetTime();
-	时间 = os.date("%Y年%m月%d日")
+	local tim = getNetTime();
+	local 时间 = os.date("%Y年%m月%d日")
 	mSleep(3000)
 if values.注册类型 =="1" then
 	local 区号
@@ -940,12 +942,12 @@ if values.注册类型 =="1" then
 	elseif values.号码地区 == '2' then --美国
 		区号 = '+1'
 	elseif values.号码地区 == '3' then --柬埔寨
-		区号 = '+855'	
+		区号 = '+855'
 	end
-	记录内容 = tostring(区号).."|".. tostring(电话号码).."|".. tostring(获取验证码地址).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. tostring(时间)
+	记录内容 = tostring(区号).."|".. tostring(电话号码).."|".. tostring(获取验证码地址).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. "当前设备的时间：".. tostring(时间)
 	--dialog("电话号码:"..电话号码)
 elseif values.注册类型 =="0" then
-    记录内容 = tostring(返回邮箱号码).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. tostring(时间)
+    记录内容 = tostring(返回邮箱号码).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. "当前设备的时间：".. tostring(时间)
 end
 	mSleep(1000)
 	记录数据('INS--已注册手机号.log',记录内容)

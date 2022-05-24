@@ -33,6 +33,8 @@ local domain_id = values.domain_id
 -- local start_time = values.start_time
 -- local end_time = values.end_time
 local 注册类型 = values.注册类型
+local 邮箱前缀 = values.邮箱前缀
+local 邮箱后缀 = values.邮箱后缀
 
 
 require("基础函数")

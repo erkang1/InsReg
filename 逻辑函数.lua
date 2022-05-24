@@ -497,7 +497,7 @@ function INS浏览器注册()
                 tap(519,413) 
                 mSleep(1000)
                 --adminsygs@5jdj.com
-                邮箱号码="admin"..随机脆球后缀().."@5jdj.com"   --后期再加   子邮箱
+                邮箱号码 = values.邮箱前缀 .. 随机脆球后缀() .. "@" .. values.邮箱后缀
                 输入文本2(341,563,邮箱号码)
                 mSleep(1000)
                 tap(407,701)
@@ -790,10 +790,12 @@ function INS浏览器注册()
             tap(367,500)
             mSleep(2000)
         elseif 当前界面 == "google浏览器重新设置用户名界面" or 当前界面 == "浏览器重新设置用户名界面"  then
-            mSleep(1000)
-            tap(625,477)
-            mSleep(2000)
-            tap(414,619) --点击 Next
+            mSleep(3000)
+            -- tap(625,477)
+            -- mSleep(2000)
+            -- tap(414,619) --点击 Next
+            toast("账号不可用")
+            全局变量1=3    --出错页面重新开始
             mSleep(1000)
         elseif 当前界面 == "浏览器验证码失败页面"  or 当前界面 == "INS浏览器报错界面" or 当前界面 == "INS浏览器网络报错界面" or  当前界面 == "google浏览注册error页面" then     
             mSleep(3000)
@@ -835,12 +837,28 @@ function INS浏览器注册()
         else
            
         end
-        
+        local erol =  ocrText(247,600,515,630,0)
+        if erol == "Couldn't Create" then
+          全局变量1=3
+          mSleep(1000)
+        end
+        local ero2 =  ocrText(154,338,669,375,0)
+        if ero2 == "Suspended Your Account" then
+        toast("账号被封禁")
+        全局变量1=3
+        mSleep(1000)
+        end
+        local ero3 =  ocrText(90,530,530,553,0)
+        if ero3 == "This email is taken bv another account" then
+        toast("邮箱被使用")
+        全局变量1=3
+        mSleep(1000)
+        end
         -- if 当前界面 == "google浏览注册error页面"  then
         --     mSleep(3000)
-        --     --记录账号信息()
+        --     记录账号信息()
         --     --移动cookies()
-        --     全局变量1=3
+        --     --全局变量1=3
         --     mSleep(3000)
         -- else
                 

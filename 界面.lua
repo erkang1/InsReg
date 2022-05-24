@@ -465,6 +465,52 @@ MyTable = {
             },
         
         ----翠球邮箱参数-----
+        {
+                ["type"] = "Label", 
+                ["text"] = "邮箱前缀:",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "邮箱前缀",                 
+                --["prompt"] = "2000", 
+                ["text"] = "admin",
+                --["kbtype"] = "number",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15, 
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 150,
+                ["nowrap"] = 1,
+            },
+        {
+                ["type"] = "Label", 
+                ["text"] = "邮箱后缀:",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "邮箱后缀",                 
+                --["prompt"] = "2000", 
+                ["text"] = "5jdj.com",
+                --["kbtype"] = "number",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15, 
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 170,
+                ["nowrap"] = 0,
+            },
             {
                 ["type"] = "Label", 
                 ["text"] = "脆球密钥:",        
