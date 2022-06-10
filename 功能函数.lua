@@ -1,3 +1,4 @@
+Firefox = 'org.mozilla.ios.Firefox'
 
 function 打码准备()
     for var= 1, 30 do
@@ -9,9 +10,45 @@ function 打码准备()
             return true
         end
         xx1,yy1 = findMultiColorInRegionFuzzy(0xcacaca, "367|4|0xcdcdcd,184|-80|0xcacaca,133|29|0xcacaca,238|39|0xcacaca,232|34|0xcacaca,-68|278|0x505050,-32|284|0x505050",90,118,555,559,925)
-        if xx1>0 then  --说明验证码没有刷新
+        if xx1>0 then   --说明验证码没有刷新
             tap(117,925) 
             mSleep(3000)
+        end
+    end
+end
+
+function 图鉴打码()
+    function userPath()
+        return "/var/mobile/Media/TouchSprite"	--填写触动实际路径
+    end
+
+    function ttScreen(x1,y1,x2,y2,scale)  -- 此处为触动截图方法
+        scale=scale or 1
+        local path=userPath().."/res/ttshu.png"
+        snapshot("ttshu.png",x1,y1,x2,y2,scale)
+        return path
+    end
+    local a = ttScreen(99,459,650,802,1) --图片的路径完整路径此处为截图获取的路径
+    --	dialog(tostring(a))
+    res,id = tt.Image(a,33) --开始识别  33为滑块验证类型  返回起始X坐标
+    --	dialog("result:"..tostring(res)..tostring(id)) --识别结果,识别id
+    --识别结果报错示例。
+    --	res1=tt.ReportError2(id) 
+    --	dialog(tostring(res1))
+    if res ~= nil then 
+        local  终止坐标X=107+tonumber(res)
+        moveTo(107,847,终止坐标X,847,{["step"] = 20,["ms"] = 100,["index"] = 1,["stop"] = true})
+    else
+        toast('获取打码坐标失败',1)
+        return false
+    end
+    for var=1,20 do
+        mSleep(200)
+        if isColor(135,853,0xffc1c1) then   --判断打码是否成功
+            --打码失败
+            bool = tt.ReportError2(id) 
+            toast('打码失败',1) 
+            break
         end
     end
 end
@@ -58,63 +95,50 @@ function 向上翻页2()
     mSleep(100)
 end
 
-function 打码()
-    text,tid = ocrScreen(207,519,646,747,1318,60,0.5)
-    if text~=nil then --成功获取数据
-        --------返回的坐标X+144，起始坐标Y
-        new = text:split(",") -- 将字符串 str 按照 `,`
-        local 终止坐标X=起始坐标X+new[1]+打码X偏移量
-        moveTo(起始坐标X,起始坐标Y,终止坐标X,起始坐标Y,{["step"] = 20,["ms"] = 100,["index"] = 1,["stop"] = true})
+function 卸载应用(包名)
+	flag = ipaUninstall(包名)
+	--dialog(tostring(flag))
+	if flag == 1 then
+		toast("卸载成功")
+	else
+		toast("卸载失败")
+	end
+end
+
+function 安装Firefox()
+	flag = ipaInstall(userPath().."/res/Firefox.ipa")       --ipa文件需要放进指定路径下面
+	if flag == 1 then
+    	toast("安装成功")
+    	return true
     else
-        toast('获取打码坐标失败',1)
-        return false
-    end
-    for var=1,20 do
-        mSleep(200)
-        if isColor(135,853,0xffc1c1) then  --判断打码是否成功
-            --打码失败
-            bool = ocrReportError()
-            toast('打码失败',1) 
-            break
-        end
+    	toast("安装失败,请检查文件是否存在")
     end
 end
 
-function 图鉴打码()
-    function userPath()
-        return "/var/mobile/Media/TouchSprite"	--填写触动实际路径
-    end
 
-    function ttScreen(x1,y1,x2,y2,scale)  -- 此处为触动截图方法
-        scale=scale or 1
-        local path=userPath().."/res/ttshu.png"
-        snapshot("ttshu.png",x1,y1,x2,y2,scale)
-        return path
-    end
-    local a = ttScreen(99,459,650,802,1) --图片的路径完整路径此处为截图获取的路径
-    --	dialog(tostring(a))
-    res,id = tt.Image(a,33) --开始识别  33为滑块验证类型  返回起始X坐标
-    --	dialog("result:"..tostring(res)..tostring(id)) --识别结果,识别id
-    --识别结果报错示例。
-    --	res1=tt.ReportError2(id) 
-    --	dialog(tostring(res1))
-    if res ~= nil then 
-        local  终止坐标X=107+tonumber(res)
-        moveTo(107,847,终止坐标X,847,{["step"] = 20,["ms"] = 100,["index"] = 1,["stop"] = true})
-    else
-        toast('获取打码坐标失败',1)
-        return false
-    end
-    for var=1,20 do
-        mSleep(200)
-        if isColor(135,853,0xffc1c1) then   --判断打码是否成功
-            --打码失败
-            bool = tt.ReportError2(id) 
-            toast('打码失败',1) 
-            break
-        end
-    end
-end
+-- function 打码()
+--     text,tid = ocrScreen(207,519,646,747,1318,60,0.5)
+--     if text~=nil then --成功获取数据
+--         --------返回的坐标X+144，起始坐标Y
+--         new = text:split(",") -- 将字符串 str 按照 `,`
+--         local 终止坐标X=起始坐标X+new[1]+打码X偏移量
+--         moveTo(起始坐标X,起始坐标Y,终止坐标X,起始坐标Y,{["step"] = 20,["ms"] = 100,["index"] = 1,["stop"] = true})
+--     else
+--         toast('获取打码坐标失败',1)
+--         return false
+--     end
+--     for var=1,20 do
+--         mSleep(200)
+--         if isColor(135,853,0xffc1c1) then  --判断打码是否成功
+--             --打码失败
+--             bool = ocrReportError()
+--             toast('打码失败',1) 
+--             break
+--         end
+--     end
+-- end
+
+
 
 function 随机账号密码()
     local 域名集={'gmail.com','yahoo.com','outlook.com','hotmail.com','icloud.com'}
@@ -133,25 +157,38 @@ function 随机账号密码()
     end
 end
 
-function 随机用户名()
+function 随机用户名1()
     local str1 ="abcdefghijklmnopqrstuvwxyz0123456789"
     local options = {
         ["tstab"] = 1,
-        ["num"] = math.random(6,10),
+        ["num"] = math.random(6,8),
     }
     local ret=getRndStr(str1,options)
+    --dialog(ret)
     return ret
 end
 
--- function 随机用户名()
---     local str1 ="_ab_cd_efgh_ijkl_mn_opqr_s_tuv_wxy_z012_34_5678_9"
---     local options = {
---         ["tstab"] = 1,
---         ["num"] = math.random(8,10),
---     }
---     local ret=getRndStr(str1,options)
---     return ret
--- end
+function get_seeda() 
+    local t = string.format("%f", socket.gettime())
+    local st = string.sub(t, string.find(t, "%.") + 1, -1) 
+    return tonumber(string.reverse(st))
+end 
+
+function 随机用户名(n) 
+    math.randomseed(get_seeda()) 
+    local t = {
+        "0","1","2","3","4","5","6","7","8","9",
+        "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
+    }    
+    local s = ""
+    for i =1, n do
+        -- s = s .. t[math.random(#t)]        
+        s = s .. t[math.random(1,62)]  
+    end
+    return s
+end
+
 
 function 随机用户昵称()
     local str1 ="abcdefghijklmnopqrstuvwxyz"
@@ -207,8 +244,8 @@ end
 function 获取S5代理()
     获取S5接口 = values.代理链接
     -- 获取S5接口 = "http://20.122.103.3:51515/api/v1/getIP?type=text&username=test_99641&protocol=0&region=RU&count=1"  --测试链接
-     -- 获取S5接口 = "https://coralip.com/api/v2/getIP?username=pps_erkang&password=pzhuondvwb&protocol=0&count=1&region=&keep_time=2&type=text"    --珊瑚IP
-    --格式：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
+    -- 获取S5接口 = "https://coralip.com/api/v2/getIP?username=pps_erkang&password=pzhuondvwb&protocol=0&count=1&region=&keep_time=2&type=text"     --珊瑚IP
+    -- 格式：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
     local webdata=httpGet(获取S5接口)
     --dialog(tostring(webdata))
     if tostring(webdata) =='false' then
@@ -225,8 +262,8 @@ function 获取S5代理()
         local strs4 = strs2[2]:split(":")  --分割IP 端口
         代理账号 = strs3[1]
         代理密码 = strs3[2]
-        代理IP = strs4[1]
         代理端口 = strs4[2]
+        代理IP = strs4[1]
     --dialog("账号密码："..strs2[1].."IP端口"..strs2[2])
     --dialog("账号:"..strs3[1].."密码："..strs3[2])
     --dialog("IP:"..strs4[1].."端口:"..strs4[2])
@@ -244,26 +281,26 @@ function 手动设置代理()
     mSleep(1000)
     tap(362,773,80,"click_point_5_2.png",1)  --点击Socks5
     mSleep(1000)
-    --开始输入
-    --tap(226,360) --点击地址
-    --dialog(代理IP)
+    -- 开始输入
+    -- tap(226,360) --点击地址
+    -- dialog(代理IP)
     输入文本2(226,360,代理IP)
     mSleep(500)
-    --dialog(代理端口)
+    -- dialog(代理端口)
     输入文本2(220,455,代理端口)
     mSleep(500)
-    --dialog(代理账号)
+    -- dialog(代理账号)
     输入文本2(304,542,代理账号)
     mSleep(500)
-    --dialog(代理密码)
+    -- dialog(代理密码)
     输入文本2(221,623,代理密码)
     mSleep(500)
-    tap( 680,83) --点击完成
+    tap( 680,83) -- 点击完成
 end
 
 function 检查代理连通状态()
     for var= 1,10 do
-        local webdata = httpGet("http://www.google.com/")             --获取谷歌网页数据
+        local webdata = httpGet("http://www.google.com/")              --获取谷歌网页数据
         toast(tostring(webdata).."，网络无法连接，正在重试...")
         if  webdata and webdata ~= "" then
             toast("网络正常，开始运行")
@@ -811,14 +848,14 @@ end
 end
 
 
---------翠球邮箱注册------------
-function 获取邮箱列表()  --所属邮箱
+--------------------------------------------------------翠球邮箱注册------------------------------------------------------------------------------------------------
+function 获取邮箱列表()           --所属邮箱
 header_send = {typeget = "iOS"}
 body_send = {
 ["token"] = values.脆球密钥,
 ["domain_id"] = values.domain_id,
 ["page"] = "1",
-["limit"] = "1",
+["limit"] = "10",
 }
 ts.setHttpsTimeOut(60) 
 code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/mail/list", header_send, body_send)
@@ -826,24 +863,64 @@ code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v
 end
 
 function 获取email列表()   --邮件的列表
-tim = getNetTime(); 		
-time_year = os.date("%Y",tim)			--格式化 time 值获取年份
-time_M = os.date("%m",tim) 		 	    --格式化 time 值获取月份
-time_D = os.date("%d",tim) 		 	    --格式化 time 值获取天
-
-time_H = os.date("%H",tim)
-
-time_HA = time_H+15   --洛杉矶时区
-if time_HA>24 then        -- H 超过24小时，则日期增加一天
-    time_HZ = time_HA-15  
-    time_DM = time_D+1
+    --首先获取当前的时间
+for var=1,5 do
+    tim = getNetTime(); 		
+    time_year = os.date("%Y",tim)			--格式化 time 值获取年
+    time_M = os.date("%m",tim) 		 	    --格式化 time 值获取月
+    time_D = os.date("%d",tim) 		 	    --格式化 time 值获取天
+    -- dialog(os.date("%Y年%m月%d日%H点%M分%S秒",time))  
+    time_H = os.date("%H",tim) 
+    
+    time_HA = time_H+15   --洛杉矶时区   --H
+    --dialog(time_HA)
+    if time_HA > 24 then        -- H 超过24小时，则日期增加一天
+        time_HZ = time_HA-15
+        time_DM = time_D+1
+    elseif time_HA <= 24 then   --小于等于24则表示为当天
+        time_HZ = time_HA
+        time_DM = time_D
+    else
+        toast("时间格式有误")
+    end
+    
+    time_DMA = time_DM+1
+    
+    if string.len(time_DM) < 2  then       --当日期字符串长度小于2位数时，则添加 “0” ，示例 1 --> 01，否则保持默认
+        time_DM = "0"..time_DM
+        --dialog("当前日期："..time_DM)
+    else     
+        toast("获取开始时间失败")
+    end
+    
+    if string.len(time_DMA) < 2 then        --当日期字符串长度小于2位数时，则添加 “0” ，示例 1 --> 01，否则保持默认
+        time_DMA = "0"..time_DMA
+        --dialog("结束日期："..time_DMA)   
+    else     
+        toast("获取结束时间失败")
+       -- 全局变量1=3
+    end
+    
+    start_time = (os.date("%Y-%m-".. time_DM.. " " .. time_HZ..":%M:%S",tim):split(" "))[1]
+    end_time = (os.date("%Y-%m-" ..time_DMA.. " ".. time_HZ ..":%M:%S",tim):split(" "))[1]
+    --dialog(start_time)
+    --dialog(end_time)
+    toast("start_time："..start_time)
+    mSleep(1000)
+    toast("end_time："..end_time)
+    mSleep(1000)
+    
+    if start_time ~="" and end_time ~="" and time_year == "2022" then
+        break
+    elseif start_time ~="" and end_time ~="" and time_year ~= "2022" then
+        toast("获取时间失败,请检查当前网络："..start_time.."-"..end_time,2)
+        全局变量1=2
+    else
+        toast("获取时间失败")
+        mSleep(1000)
+        全局变量1=2
+    end
 end
-time_DMA = time_DM+1
-
-start_time = (os.date("%Y-%m-".. time_DM.. " " .. time_HZ..":%M:%S",tim):split(" "))[1]
-end_time = (os.date("%Y-%m-" ..time_DMA.. " ".. time_HZ ..":%M:%S",tim):split(" "))[1]
---dialog(start_time)
---dialog(end_time)
 
 header_send = {typeget = "iOS"}
 body_send = {
@@ -854,37 +931,32 @@ body_send = {
 ["end_time"] = end_time
 }
 
--- for var=1,3 do   --等待List刷新
---     toast("正在等待返回邮箱列表...",3)
---     mSleep(3000)
--- end
-
-ts.setHttpsTimeOut(60)
-for var=1,15 do
-code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/list", header_send, body_send)
---dialog("进入获取【email列表】流程"..body_resp,0)
-local 分割数据 = body_resp:split(":")
-EmailAll =分割数据[14]
-local Email = (EmailAll:split(","))[1]
---dialog(Email)
-local res,_ = Email:gsub('"',"") 
-返回邮箱号码 = string.sub(res,1,20)
---dialog(邮箱号码)
---return 返回邮箱号码
+ts.setHttpsTimeOut(60)  --超时时间
+for var=1,10 do
+    code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/list", header_send, body_send)
+    toast(body_resp)
+    local 分割数据 = body_resp:split(":")
+    EmailAll =分割数据[14]
+    local Email = (EmailAll:split(","))[1]
+    --dialog(Email)
+    local res,_ = Email:gsub('"',"")
+    返回邮箱号码 = string.sub(res,1,27)
+    --dialog(邮箱号码)
+    --return 返回邮箱号码
     toast("对比邮箱："..邮箱号码.."-----"..返回邮箱号码)
     mSleep(3000)
-    if 邮箱号码 == 返回邮箱号码 then
-        toast("账号一致，开始获取box_id",2)
-        local id所在区域 = 分割数据[7]
-        --dialog("id所在区域"..id所在区域)
-        local res,_ = id所在区域:gsub("%D+","") 
-        Box_id = string.sub(res,1,7)
-        --dialog("Box_id："..Box_id)
-        return Box_id
-    else
-        toast("重新获取数据，未获取到指定邮箱数据")
-        mSleep(1000)
-    end
+        if tostring(邮箱号码) == tostring(返回邮箱号码) then
+            --toast("账号一致，开始获取box_id",2)
+            local id所在区域 = 分割数据[7]
+            --dialog("id所在区域"..id所在区域)
+            local res,_ = id所在区域:gsub("%D+","")
+            Box_id = string.sub(res,1,7)
+            --dialog("Box_id："..Box_id)
+            return Box_id
+        else
+            toast("重新获取数据，未获取到指定邮箱数据")
+            mSleep(1000)
+        end
 end
 全局变量1=2
 end
@@ -893,13 +965,13 @@ function 获取email内容()
 获取email列表()
 header_send = {typeget = "iOS"}
 body_send = {
-                ["token"] = values.脆球密钥,
-                ["mail_id"] = values.mail_id,
-                ["box_id"] = Box_id,
-            }
+    ["token"] = values.脆球密钥,
+    ["mail_id"] = values.mail_id,
+    ["box_id"] = Box_id,
+}
 ts.setHttpsTimeOut(160) 
 code,status_resp, body_resp = ts.httpsPost("https://domain-open-api.cuiqiu.com/v1/box/detail", header_send, body_send)
---dialog("进入获取email流程："..body_resp)
+-- dialog("进入获取email流程："..body_resp)
 local tmp = json.decode(body_resp)
 local reg_all = tmp.data.content.subject
 --dialog(reg_all)
@@ -913,11 +985,20 @@ function 随机脆球后缀()
 local str1 ="abcdefghijklmnopqrstuvwxyz"
 local options = {
 	["tstab"] = 1, 
-	["num"] = math.random(2,7),
+	["num"] = math.random(4,7),
 }
 local ret=getRndStr(str1,options)
 return ret
 end
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 
 --记录账号信息到本地--
 function 记录账号信息()

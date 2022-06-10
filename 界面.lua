@@ -7,9 +7,9 @@ MyTable = {
     ["height"] = h,            
     ["cancelname"] = "取消",  
     ["okname"] = "同意条款并运行", 
-    ["title"] = "INS注册脚本", --标题栏文字
-    ["titlealign"] = "left", --title 对齐方式，默认左对齐
-    ["align"] = "center", --
+    ["title"] = "INS注册脚本",  --标题栏文字
+    ["titlealign"] = "left",  --title 对齐方式，默认左对齐
+    ["align"] = "center", 
     ["titlesize"] = 15,  
     ["titles"] = "参数设置,其他设置,免责声明", 
     ["pagetype"]= "multi",   --多页模式
@@ -38,14 +38,10 @@ MyTable = {
             },
             {
                 ["type"] = "RadioGroup",            
-                -- 必填，控件类型，单选组合
                 ["id"] = "脚本功能",                      
-                -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
                 ["list"] = "APP,谷歌,火狐",     	 -- 必填，无，多选组合内容
-                --                ["list"] = "登录,注册",     		 -- 必填，无，多选组合内容
                 ["select"] = "2",                  	 -- 选填，0，默认选中项 id
                 ["images"] = "ins.png,ins2.png,ins3.png", 
-                -- 选填，无， 单选组合选项显示图片
                 ["scale"] = 0.15,                    -- 选填，1，图片缩放比例
                 ["countperline"] = 0,			
             },
@@ -62,13 +58,9 @@ MyTable = {
             },
             {
                 ["type"] = "RadioGroup",            
-                -- 必填，控件类型，单选组合
                 ["id"] = "系统版本",                      
-                -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
                 ["list"] = "IOS-12,其他版本",      -- 必填，无，多选组合内容
                 ["select"] = "1",                   -- 选填，0，默认选中项 id
-                --["images"] = "test1.png,test1.png,test1.png,test1.png", 
-                -- 选填，无， 单选组合选项显示图片
                 ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
                 ["countperline"] = 0,
             },
@@ -84,16 +76,11 @@ MyTable = {
                 ["nowrap"] = 1,
             },
             {
-                ["type"] = "RadioGroup",            
-                -- 必填，控件类型，单选组合
+                ["type"] = "ComboBox",            
                 ["id"] = "注册类型",                      
-                -- 选填，无，控件 ID，以 table 格式返回返回值时必填,否则无法获取返回值
-                ["list"] = "翠球邮箱,手机接码",      -- 必填，无，多选组合内容
+                ["list"] = "翠球邮箱,手机号接码",      -- 必填，无，多选组合内容
                 ["select"] = "1",                   -- 选填，0，默认选中项 id
-                --["images"] = "test1.png,test1.png,test1.png,test1.png", 
-                -- 选填，无， 单选组合选项显示图片
-                ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
-                ["countperline"] = 0,
+                 ["width"] = 500
             },
             {
                 ["type"] = "Label",
@@ -109,10 +96,8 @@ MyTable = {
             {
                 ["type"] = "ComboBox",               
                 ["id"] = "使用软件",                  
-                --["prompt"] = "300毫秒", 
                 ["list"] = "AXJ,PYAPP,OnePress",
                 ["select"] = 1,
-                --["list"] = "地址1:http://45.207.44.6:12345/v2/api/get/phone?name=,地址2:sms-activate.ru/cn",
                 ["color"] = "0,0,0",
                 ["align"] = "",           
                 ["valign"] = "top",   
@@ -141,10 +126,31 @@ MyTable = {
                 ["width"] = 500,
                 ["nowrap"] = 0,
             }, 
+            -- {
+            --     ["type"] = "Label",
+            --     ["align"] = "center",
+            --     ["text"] = "上传头像:",
+            --     ["size"] = 15, 
+            --     ["align"] = "left",          
+            --     ["valign"] = "center", 
+            --     ["color"] = "0,0,0",           
+            --     ["width"] = -1,
+            --     ["nowrap"] = 1,
+            -- },
+            -- {
+            --     ["type"] = "Switch",
+            --     ["id"] = "上传头像",
+            --     ["size"] = "m",
+            --     ["align"] = "left",
+            --     ["valign"] = "top",
+            --     ["state"] = "off",
+            --     ["width"] = -1,
+            --     ["nowrap"] = 1,
+            -- },
             {
                 ["type"] = "Label",
                 ["align"] = "center",
-                ["text"] = "上传头像:",
+                ["text"] = "卸载重装:",
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -154,14 +160,14 @@ MyTable = {
             },
             {
                 ["type"] = "Switch",
-                ["id"] = "上传头像",
+                ["id"] = "卸载安装",
                 ["size"] = "m",
                 ["align"] = "left",
                 ["valign"] = "top",
                 ["state"] = "off",
                 ["width"] = -1,
                 ["nowrap"] = 1,
-            },
+            },        
             {
                 ["type"] = "Label",
                 ["align"] = "center",
@@ -197,7 +203,6 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "代理链接",                  
                 ["prompt"] = "你的代理链接", 
-                --["text"] = "http://20.122.103.3:51515/api/v1/getIP?type=text&username=test_99641&protocol=0&region=RU&count=1",
                 ["kbtype"] = "default",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -266,7 +271,6 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "注册数量",                 
-                --["prompt"] = "2000", 
                 ["text"] = "2000",
                 ["kbtype"] = "number",  
                 ["color"] = "0,0,0",   
@@ -289,7 +293,6 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "注册间隔",                 
-                --["prompt"] = "120", 
                 ["text"] = "120",
                 ["kbtype"] = "number",  
                 ["color"] = "0,0,0",   
@@ -312,7 +315,6 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "防卡时间",                  
-                --["prompt"] = "300毫秒", 
                 ["text"] = "300",
                 ["kbtype"] = "number",
                 ["color"] = "0,0,0",   
@@ -335,9 +337,7 @@ MyTable = {
             {
                 ["type"] = "ComboBox",               
                 ["id"] = "接口序",                  
-                --["prompt"] = "300毫秒", 
                 ["list"] = "地址1,地址2,地址3,地址4",
-                --["list"] = "地址1:http://45.207.44.6:12345/v2/api/get/phone?name=,地址2:sms-activate.ru/cn",
                 ["color"] = "0,0,0",
                 ["align"] = "",           
                 ["valign"] = "top",   
@@ -357,8 +357,7 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "指定密码",
-                ["prompt"] = "设置指定密码", 
-                --["text"] = "qqq111...",
+                ["prompt"] = "设置指定密码/不填默认随机密码", 
                 ["kbtype"] = "default", 
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -370,7 +369,6 @@ MyTable = {
             {
                 ["type"] = "Label", 
                 ["text"] = "地  址  1  :",        
-                --["text"] = "接口地址1:",        
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -382,7 +380,6 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "电话号接口",
                 ["prompt"] = "http://20.122.103.3:11223/api/v2/phone/getPhone?token=", 
-                --["text"]="http://20.122.103.3:11223/api/v2/phone/getPhone?token=",
                 ["kbtype"] = "default", 
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -394,7 +391,6 @@ MyTable = {
             {
                 ["type"] = "Label", 
                 ["text"] = "地  址  2  :",        
-                --               ["text"] = "接口地址2:",        
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -406,7 +402,6 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "电话号接口2",
                 ["prompt"] = "https://api.sms-activate.org/stubs/handler_api.php?api_key=", 
-                --["text"]="https://api.sms-activate.org/stubs/handler_api.php?api_key=",
                 ["kbtype"] = "default", 
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -418,7 +413,6 @@ MyTable = {
             {
                 ["type"] = "Label", 
                 ["text"] = "地  址  3  :",        
-                --               ["text"] = "接口地址2:",        
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -430,7 +424,6 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "电话号接口3",
                 ["prompt"] = "http://20.122.103.3:11223/api/v1/sms/getPhone?token=$token&itemId=$id", 
-                --["text"]="http://20.122.103.3:11223/api/v1/sms/getPhone?token=b0633c54509bb534feef5968625acbea&itemId=1",
                 ["kbtype"] = "default", 
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -442,7 +435,6 @@ MyTable = {
             {
                 ["type"] = "Label", 
                 ["text"] = "地  址  4  :",        
-                --               ["text"] = "接口地址2:",        
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -454,7 +446,6 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "电话号接口4",
                 ["prompt"] = "http://api1.5sim.net/stubs/handler_api.php?api_key=&api_key&action=getNumber&service=lf&country=0", 
-                --["text"]="http://20.122.103.3:11223/api/v1/sms/getPhone?token=b0633c54509bb534feef5968625acbea&itemId=1",
                 ["kbtype"] = "default", 
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -501,8 +492,8 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "邮箱后缀",                 
-                --["prompt"] = "2000", 
-                ["text"] = "5jdj.com",
+                ["prompt"] = "****.com", 
+                --["text"] = "5jdj.com",
                 --["kbtype"] = "number",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
@@ -524,9 +515,9 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "脆球密钥",                 
-                --["prompt"] = "2000", 
-                ["text"] = "b334398cd5ca459f8c7f0d1c1ba4ad7d",
-                ["kbtype"] = "number",  
+                ["prompt"] = "b334398*********************1ba4ad7d", 
+                --["text"] = "b334398cd5ca459f8c7f0d1c1ba4ad7d",
+                ["kbtype"] = "default",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
                 ["align"] = "",           
@@ -547,9 +538,9 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "mail_id",                 
-                --["prompt"] = "2000", 
-                ["text"] = "eRv0R9eRWZ",
-                ["kbtype"] = "number",  
+                ["prompt"] = "eRv****RWZ", 
+                --["text"] = "eRv0R9eRWZ",
+                ["kbtype"] = "default",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
                 ["align"] = "",           
@@ -561,7 +552,7 @@ MyTable = {
                 ["type"] = "Label", 
                 ["text"] = "domain_id:",        
                 ["size"] = 15, 
-                ["align"] = "left",          
+                ["align"] = "left", 
                 ["valign"] = "center", 
                 ["color"] = "0,0,0",           
                 ["width"] = -1,
@@ -570,9 +561,9 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "domain_id",                 
-                --["prompt"] = "2000", 
-                ["text"] = "RG5YbepWDz",
-                ["kbtype"] = "number",  
+                ["prompt"] = "RG******Dz", 
+                --["text"] = "RG5YbepWDz",
+                ["kbtype"] = "default",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
                 ["align"] = "",           
@@ -582,7 +573,7 @@ MyTable = {
             },        
             {
                 ["type"] = "Label", 
-                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上 \n 2、chrome浏览器待更新适配，仅支持火狐浏览器 \n 若是邮箱注册，请保证当前时区是美区时间",
+                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上 \n 2、chrome浏览器待更新适配，仅支持火狐浏览器 \n 3、若是邮箱注册，请保证当前时区是美区【洛杉矶】时间 \n 4、【卸载重装功能】请确保【/private/var/mobile/Media/TouchSprite/res】目录下存放了【Firefox.ipa】文件",
                 ["size"] = 12, 
                 ["align"] = "left",          
                 ["valign"] = "center", 

@@ -35,6 +35,7 @@ local domain_id = values.domain_id
 local 注册类型 = values.注册类型
 local 邮箱前缀 = values.邮箱前缀
 local 邮箱后缀 = values.邮箱后缀
+local 卸载安装 = values.卸载安装
 
 
 require("基础函数")
@@ -48,7 +49,19 @@ setAutoLockTime(0)  --防锁屏
 if UIret == 1 then
 	mSleep(1000)
 function 全局设置()
-    
+
+	---判断是否开启卸载安装--------	
+	if values.卸载安装 == 'on' then
+	    toast("您已经打开【卸载重装功能】，请确保【/private/var/mobile/Media/TouchSprite/res】目录下存放了【TikTok.ipa】文件")	    
+		--toast("准备卸载",1)
+		卸载应用(Firefox)
+		mSleep(1000)
+		toast("准备安装",1)
+		安装Firefox()
+		mSleep(1000)
+	else
+		mSleep(500)
+	end    
     ----判断间隔时间是否大于等于60------	
     if tonumber(values.注册间隔) < 30 then
         dialog("为保证流程正常运行，间隔时间应该大于等于【30】秒",{title = "参数设置错误",button = "退出重新设置"})
@@ -90,8 +103,7 @@ function 全局设置()
     end
 
 
-    
-    
+
 ---判断代理是否填写  VPN操作--- 
 	if values.手动获取代理 == 'on' then  		--------手动设置S5代理------
 		toast("手动设置代理已经开启")
@@ -193,7 +205,7 @@ for var = 1, 注册数量 do
 	for  ii= 1,values.防卡时间/10,1 do
 		防卡倒计时=(60-ii+1)*10
 		--toast('防卡倒计时：'..防卡倒计时..'秒',1)
-		mSleep(5000)
+		mSleep(2000)
 		if 全局变量1==1 then
 			toast('注册成功，重新计时',1)
 			--停止脚本

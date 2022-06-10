@@ -242,8 +242,8 @@ function INSAPP注册()
 		elseif 当前界面 == "INS注册设置用户名界面" then 
 			mSleep(3000)			
 			if values.文件名称 == '' then
-				mSleep(500)
-				名字 = 随机用户名()
+				mSleep(1000)
+				名字 = 随机用户名(8)
 			else
 				toast("获取到文件！")
 				名字 = 随机用户昵称()
@@ -269,7 +269,7 @@ function INSAPP注册()
 		elseif 当前界面 == "INS注册选择生日界面" then
 			选择生日()
 			tap(注册next生日X,注册next生日Y) 
-			mSleep(6000)
+			mSleep(3000)
 		elseif 当前界面 == "INS注册设置昵称界面" then
 			mSleep(3000)
 			if multiColor({{用户名对勾X,用户名对勾Y,对勾的颜色}},90,false) == true  then --说明用户名可以用	
@@ -286,7 +286,7 @@ function INSAPP注册()
 				end	
 				if values.文件名称 == '' then
 					mSleep(500)
-					名字 = 随机用户名()
+					名字 = 随机用户名(8)
 				else
 					toast("获取到文件！")
 					名字 = 随机用户昵称()
@@ -381,6 +381,8 @@ function 浏览器输入网站()
         while (true) do
             local 主页 = ocrText(279,132,466,166,0)   --识别Browser文字
             local 底部文字 = ocrText(274,1173,401,1201,0)  --识别底部文字 address
+            local 主页2 = ocrText(281,433,465,464,0)   --识别Browser文字
+            local 设置 = ocrText(123,1183,251,1222,0)   --识别Settings文字
             local 当前界面=检索界面(火狐浏览器界面列表)
          	if 当前界面 == "火狐浏览器首次登录页面" then
          	    mSleep(2000)
@@ -393,22 +395,27 @@ function 浏览器输入网站()
          	    mSleep(3000)
      	        tap(677,179,80,"click_point_5_2.png",1) --点击空白位置，收起弹框
      	        mSleep(2000)
-        -- 	elseif 当前界面 == "火狐浏览器底部搜索界面" then
-     	  --      mSleep(2000)
-     	  --      tap(677,179,80,"click_point_5_2.png",1) --点击空白位置，收起弹框
-     	  --      mSleep(2000)
-     	  --      tap(676,1287,80,"click_point_5_2.png",1) --点击设置设置图标
-     	  --      mSleep(1000)
-     	  --	elseif 当前界面 == "火狐浏览器底部搜索界面2" then
-     	  --	  mSleep(2000)
-     	  --      tap(676,1287,80,"click_point_5_2.png",1) --点击设置图标
-     	  --      mSleep(1000)
+        	elseif 当前界面 == "火狐浏览器底部搜索界面" then
+     	        mSleep(2000)
+     	        tap(677,179,80,"click_point_5_2.png",1) --点击空白位置，收起弹框
+     	        mSleep(2000)
+     	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置设置图标
+     	        mSleep(1000)
+     	  	elseif 当前界面 == "火狐浏览器底部搜索界面2" then
+     	  	    mSleep(2000)
+     	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置图标
+     	        mSleep(1000)
+     	  	elseif 主页2 == "Learn How" and 底部文字 == "address" then
+     	  	    mSleep(2000)
+     	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置图标
+     	        mSleep(1000)     	  	    
      	  	elseif 主页 == "Browser" and 底部文字 == "address"  then 
      	  	    mSleep(2000)
      	        tap(676,1287,80,"click_point_5_2.png",1) --点击设置设置图标
      	        mSleep(1000)
-     	  	elseif 当前界面 == "火狐浏览器设置界面" then
-     	  	    mSleep(2000)
+     	  --	elseif 当前界面 == "火狐浏览器设置界面" then
+     	    elseif 设置 == "Settings" then
+     	  	    mSleep(1000)
      	  	    tap(281,1194,80,"click_point_5_2.png",1)  --点击设置
      	  	    mSleep(2000)
      	  	elseif 当前界面 == "火狐浏览器设置内部界面" then   	  
@@ -468,6 +475,18 @@ end
 function INS浏览器注册()
 	--打开INS应用  自动进入到了INS注册主界面  
     while (true) do
+        -- local 注册1 = ocrText(301,177,445,216,0)   --识别 Register 文字
+        -- local 注册2 = ocrText(112,283,320,308,0)   --识别 Welcome to \   , Welcome to文字
+        -- local 注册2_1,_ = 注册2:gsub("%p","") 
+        -- 注册2_1 = string.sub(注册2_1,1,7)
+        -- --toast(注册2_1,5)
+        -- local Error = ocrText(329,586,429,618,0)   --识别Error文字
+        -- local Error_1,_ = Error:gsub("%p","") 
+        -- Error_1 = string.sub(Error_1,1,5)
+        -- --dialog(Error_1)
+        -- local GoBack = ocrText(310,801,443,831,0)   --识别GoBack文字
+        -- local changeusername = ocrText(242,479,518,517,0)
+        -- local enterconcode = ocrText(179,275,562,301,0) --识别Enter Confirmation Code文字
 		local 当前界面=检索界面(INS注册界面列表)
 	--	dialog("text")
 		if  当前界面 == "google浏览器主页界面" then     --输入地址，需要优化
@@ -589,8 +608,8 @@ function INS浏览器注册()
                     全局变量1=2 
     			end
             end
-			--判断是否离开该界面(INS注册界面列表,'INS浏览器注册界面')
-		elseif 当前界面 == "INS浏览器接收验证码界面" then
+			判断是否离开该界面(INS注册界面列表,'INS浏览器注册界面')
+		elseif 当前界面 == "INS浏览器接收验证码界面"  then
 		    mSleep(2000)
 		    for var=1,10 do
 		        if (isColor(290, 448, 0xed4956, 90)) then
@@ -606,7 +625,7 @@ function INS浏览器注册()
 			local 验证码
 			mSleep(1000)
 			if values.注册类型 =="0" then
-			       验证码=获取email内容()    --邮箱验证码
+			       验证码=获取email内容()    --脆球邮箱验证码
 		    elseif values.注册类型 =="1" then
     			if values.接口序=='0' then
     				验证码=获取验证码()
@@ -631,7 +650,8 @@ function INS浏览器注册()
         elseif  当前界面 == "INS浏览器设置用户名界面" then
             if values.文件名称 == '' then
                 mSleep(500)
-                名字 = 随机用户名()
+                --dialog("xxxxx")
+                名字 = 随机用户名(8)
             else
                 toast("获取到文件！")
                 名字 = 随机用户昵称()
@@ -664,7 +684,7 @@ function INS浏览器注册()
             
             tap(530,688) --点击年
             mSleep(3000)
-            for var=1,4 do
+            for var=1,3 do
               moveTo(389,1255+math.random(0,5),411,1055+math.random(0,5)) --滑动年份
               mSleep(2000)
             end
@@ -673,11 +693,23 @@ function INS浏览器注册()
             mSleep(1000)
             
             tap(364+math.random(0,10),949+math.random(0,10))
-            mSleep(1000)
-              
+            mSleep(6000)
+        
         elseif  当前界面 == "INS浏览器确认用户名界面" or  当前界面 == "INS浏览器确认用户名界面2" then
           tap(INS浏览器确认用户名NEXTX,INS浏览器确认用户名NEXTY)
           mSleep(1000)
+        elseif  当前界面 == "浏览器确认用户名3" then
+          tap(455,746)
+          mSleep(1000)
+        elseif  当前界面 == "浏览器确认用户名4" then
+          tap(451,915)
+          mSleep(1000)
+        elseif  当前界面 == "浏览器确认用户名5" then
+          tap(458,911)
+          mSleep(1000)
+        elseif  当前界面 == "浏览器确认用户名6" or 当前界面 == "浏览器确认用户名7" then
+          tap(438,1004)
+          mSleep(1000)        
         elseif  当前界面 == "浏览器长名字界面" then
           tap(426+math.random(0,10),584+math.random(0,10))
           mSleep(1000)  
@@ -732,14 +764,14 @@ function INS浏览器注册()
             判断是否离开该界面(INS注册界面列表,'google浏览器ins注册首页界面')            --需要配置的界面
         elseif 当前界面 == "浏览器ins登录界面2" then
             mSleep(1000)
-            tap(517,868)        
+            tap(517,868)
             mSleep(1000)
 		elseif 当前界面 == "google浏览器ins注册手机号界面" then   --shipei
 			mSleep(1000)
 			tap(154,552)    --点击选择地区按钮
 			mSleep(2000)
 			if 当前界面 == "INS浏览器选择国家地区界面" then 
-    			 if values.号码地区 == '0' then 
+    			 if values.号码地区 == '0' then
                     mSleep(500)
                     输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"India")
                     tap(314,367)    --点击印尼
@@ -797,17 +829,25 @@ function INS浏览器注册()
             toast("账号不可用")
             全局变量1=3    --出错页面重新开始
             mSleep(1000)
-        elseif 当前界面 == "浏览器验证码失败页面"  or 当前界面 == "INS浏览器报错界面" or 当前界面 == "INS浏览器网络报错界面" or  当前界面 == "google浏览注册error页面" then     
+        elseif 当前界面 == "浏览器验证码失败页面"  or 当前界面 == "INS浏览器报错界面" or 当前界面 == "INS浏览器网络报错界面" then     
             mSleep(3000)
             全局变量1=3    --出错页面重新开始
             --mSleep(3000)
+        elseif 当前界面 == "google浏览注册error页面" or 当前界面 == "浏览器注册出错2" then 
+            mSleep(3000)
+            全局变量1=3    --出错页面重新开始
+        elseif 当前界面 == "浏览器用户被封禁" or 当前界面 == "浏览器用户被封禁2" then     
+            mSleep(2000)
+            toast("账号被封禁")
+            全局变量1=3     --出错页面重新开始
+            mSleep(1000)
         elseif 当前界面 == "浏览器人机检测页面2"  or 当前界面 == "浏览器人机检测页面"  then
             toast("人机检测，重新开始")
             mSleep(3000)
             全局变量1=3    --出错页面重新开始
-            mSleep(3000)        
+            mSleep(3000)
         elseif 当前界面 == "浏览器网络连接错误界面" then
-            if values.手动获取代理 == 'on' then 
+            if values.手动获取代理 == 'on' then
                 for var= 1,15 do
                     mSleep(5000) 
                     toast("等待刷新中...")
@@ -842,12 +882,12 @@ function INS浏览器注册()
           全局变量1=3
           mSleep(1000)
         end
-        local ero2 =  ocrText(154,338,669,375,0)
-        if ero2 == "Suspended Your Account" then
-        toast("账号被封禁")
-        全局变量1=3
-        mSleep(1000)
-        end
+        -- local ero2 =  ocrText(154,338,669,375,0)
+        -- if ero2 == "Suspended Your Account" then
+        -- toast("账号被封禁")
+        -- 全局变量1=3
+        -- mSleep(1000)
+        -- end
         local ero3 =  ocrText(90,530,530,553,0)
         if ero3 == "This email is taken bv another account" then
         toast("邮箱被使用")
