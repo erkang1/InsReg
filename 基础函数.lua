@@ -157,7 +157,7 @@ if tab then
 	mSleep(1000)
 	return  随机获取值:rtrim()
 else
-	dialog("没有可用的数据了")
+	dialog("检查文件设置是否正确或者没有可用的数据了！")
 	luaExit()
 	mSleep(1000)
 end

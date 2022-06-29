@@ -181,10 +181,11 @@ function 随机用户名(n)
         "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z",
         "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z",
     }    
+    -- local t2 = {"_"}
     local s = ""
     for i =1, n do
         -- s = s .. t[math.random(#t)]        
-        s = s .. t[math.random(1,62)]  
+        s = s .. t[math.random(1,62)]
     end
     return s
 end
@@ -245,7 +246,8 @@ function 获取S5代理()
     获取S5接口 = values.代理链接
     -- 获取S5接口 = "http://20.122.103.3:51515/api/v1/getIP?type=text&username=test_99641&protocol=0&region=RU&count=1"  --测试链接
     -- 获取S5接口 = "https://coralip.com/api/v2/getIP?username=pps_erkang&password=pzhuondvwb&protocol=0&count=1&region=&keep_time=2&type=text"     --珊瑚IP
-    -- 格式：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
+    -- 返回格式1：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
+    -- 返回格式2：3.101.85.252:20089
     local webdata=httpGet(获取S5接口)
     --dialog(tostring(webdata))
     if tostring(webdata) =='false' then
@@ -256,13 +258,20 @@ function 获取S5代理()
         toast("获取代理失败")
         全局变量1 = 4
     else
-        local strs1 = webdata:split("//")  --分割前缀
-        local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
-        local strs3 = strs2[1]:split(":")  --分割账号  密码
-        local strs4 = strs2[2]:split(":")  --分割IP 端口
-        代理账号 = strs3[1]
-        代理密码 = strs3[2]
-        代理端口 = strs4[2]
+        ------------------    --黄--格式1需要打开   --------------------------------
+        -- local strs1 = webdata:split("//")  --分割前缀
+        -- local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
+        -- local strs3 = strs2[1]:split(":")  --分割账号  密码
+        -- local strs4 = strs2[2]:split(":")  --分割IP 端口
+        -- 代理账号 = strs3[1]
+        -- 代理密码 = strs3[2]
+        -- 代理端口 = strs4[2]
+        -- 代理IP = strs4[1]
+       ------------------------------------------------------------------------------
+       
+       
+        local strs4 = webdata:split(":")  --分割IP 端口
+        代理端口 = tonumber(strs4[2])
         代理IP = strs4[1]
     --dialog("账号密码："..strs2[1].."IP端口"..strs2[2])
     --dialog("账号:"..strs3[1].."密码："..strs3[2])
@@ -284,17 +293,23 @@ function 手动设置代理()
     -- 开始输入
     -- tap(226,360) --点击地址
     -- dialog(代理IP)
+    获取S5代理()
     输入文本2(226,360,代理IP)
     mSleep(500)
+    
+    tap(220,455)
+    mSleep(1000)
+    小键盘输入(代理端口)
+    
     -- dialog(代理端口)
-    输入文本2(220,455,代理端口)
+    -- 输入文本2(220,455,代理端口)    --黄--格式需要打开
     mSleep(500)
     -- dialog(代理账号)
-    输入文本2(304,542,代理账号)
-    mSleep(500)
+    -- 输入文本2(304,542,代理账号)    --黄--格式需要打开
+    -- mSleep(500)
     -- dialog(代理密码)
-    输入文本2(221,623,代理密码)
-    mSleep(500)
+    -- 输入文本2(221,623,代理密码)    --黄--格式需要打开
+    -- mSleep(500)
     tap( 680,83) -- 点击完成
 end
 
@@ -578,7 +593,7 @@ function 获取手机号和ID2()
         else
             toast('获取手机号失败',3)
             mSleep(2000)
-            全局变量1=2
+            全局变量1=4
            -- mSleep(3000)
         end
     end
@@ -586,7 +601,7 @@ end
 
 function 发送状态(状态)--string ,   1-通知已发送短信   6.激活成功   8.激活失败
     --wet= httpGet('https://sms-activate.ru/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)     --原地址
-    wet= httpGet('https://api.sms-activate.org/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='.. 激活ID)
+    wet= httpGet('https://api.sms-activate.org/stubs/handler_api.php?api_key='..api_key值..'&action=setStatus&status='..状态..'&id='..激活ID)
 end
 
 function 获取验证码2()
@@ -609,6 +624,7 @@ function 获取验证码2()
     local res,_ = webdata:gsub("%D+","")    	-- 使用正则匹配验证码  目前测试 适配16.6.5版本4位数验证码
     
     if tmp[1]=='FULL_SMS' then
+        mSleep(1000)
         发送状态('6')
         验证码 = string.sub(res,1,6)  	--6位数验证码 
         mSleep(1000)
@@ -903,8 +919,8 @@ for var=1,5 do
     
     start_time = (os.date("%Y-%m-".. time_DM.. " " .. time_HZ..":%M:%S",tim):split(" "))[1]
     end_time = (os.date("%Y-%m-" ..time_DMA.. " ".. time_HZ ..":%M:%S",tim):split(" "))[1]
-    --dialog(start_time)
-    --dialog(end_time)
+    -- dialog(start_time)
+    -- dialog(end_time)
     toast("start_time："..start_time)
     mSleep(1000)
     toast("end_time："..end_time)
@@ -943,7 +959,7 @@ for var=1,10 do
     返回邮箱号码 = string.sub(res,1,27)
     --dialog(邮箱号码)
     --return 返回邮箱号码
-    toast("对比邮箱："..邮箱号码.."-----"..返回邮箱号码)
+    toast("对比邮箱："..邮箱号码.."----"..返回邮箱号码)
     mSleep(3000)
         if tostring(邮箱号码) == tostring(返回邮箱号码) then
             --toast("账号一致，开始获取box_id",2)
@@ -998,8 +1014,6 @@ end
 
 
 
-
-
 --记录账号信息到本地--
 function 记录账号信息()
 --      如果是手机号——记录手机号码、token，用于排查未注册的账号，仅做记录功能
@@ -1025,17 +1039,17 @@ if values.注册类型 =="1" then
 	elseif values.号码地区 == '3' then --柬埔寨
 		区号 = '+855'
 	end
-	记录内容 = tostring(区号).."|".. tostring(电话号码).."|".. tostring(获取验证码地址).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. "当前设备的时间：".. tostring(时间)
+	记录内容 = tostring(区号).."|".. tostring(电话号码).."|".. tostring(获取验证码地址).."----".. tostring(名字).."----".. tostring(密码).."----".. "当前设备的时间：".. tostring(时间)
 	--dialog("电话号码:"..电话号码)
 elseif values.注册类型 =="0" then
-    记录内容 = tostring(返回邮箱号码).."-----".. tostring(名字).."-----".. tostring(密码).."-----".. "当前设备的时间：".. tostring(时间)
+    记录内容 = tostring(返回邮箱号码).."----".. tostring(名字).."----".. tostring(密码).."----".. "当前设备的时间：".. tostring(时间)
 end
 	mSleep(1000)
 	记录数据('INS--已注册手机号.log',记录内容)
 	toast("已经记录信息")
 	mSleep(2000)
-
 end
+--修改格式为“----”  2022-06-11 更新
 
 -------------移动cookies文件------------
 function 移动cookies()
@@ -1079,4 +1093,86 @@ function 移动cookies()
     else
         dialog("文件不存在")
     end
+end
+
+
+----------本地文件登录处理------------------
+--读取账号和密码   --将指定文件中的内容按行读取  分隔符 “ | ”
+local ts = require("ts")
+function 读取首行()
+	function readFile(path)
+    local file = io.open(path,"r");
+		if file then
+			local _list = {};
+			for l in file:lines() do
+				table.insert(_list,l)
+			end
+			file:close();
+			return _list
+		end
+	end
+	--检测指定文件是否存在
+	function file_exists(file_name)
+		local f = io.open(file_name)	
+		--f:close()
+		return f ~= nil and f:close()
+	end
+	bool = file_exists(values.登录文件路径)
+	if bool then
+	    list = readFile(values.登录文件路径)
+    	if #list > 0 then
+    		--for  i=1, #list,1  do
+    		for  i=1, 1,1  do
+    			local 首行 = list[i]
+    			local str = 首行:split("----")
+    			INS账号 = str[1]
+    			INS密码 = str[2]:rtrim()
+    			toast("账密：" .. tostring(INS账号) .. "----" .. tostring(INS密码))
+    			mSleep(1000)
+-- 			    toast("密码是："..  tostring(INS密码))
+    		end
+    	else
+		   dialog("文件内容为空")
+		   lua_exit()
+    	end
+	else
+		dialog("文件不存在",0)
+		lua_exit()
+	end
+end
+
+-------删除首行：先读取文件到table，然后修改，再清除文件内容，最后重载写入到文件
+local 文件路径 = values.登录文件路径
+function 读取文本(file)
+	local fileTab = {}
+	local line = file:read()
+	while line do
+		--dialog("获取行数据"..line)
+		table.insert(fileTab,line)
+		line = file:read()
+	end
+	return fileTab
+end
+
+function 写入文件(file,fileTab)
+	for i , line in pairs(fileTab) do
+-- 		toast("开始写入"..line)
+		file:write(line)
+		file:write("\n")
+	end
+end
+
+function 删除首行()
+	toast("开始删除首行")
+	local 打开文件 = io.open(文件路径)
+	if 打开文件 then
+		local tab = 读取文本(打开文件)
+		打开文件:close()
+		table.remove(tab,1)
+		local 文件替换 = io.open(文件路径,"w")
+		if 文件替换 then 
+			写入文件(文件替换,tab)
+			文件替换:close()
+		end
+	end
 end

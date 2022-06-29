@@ -37,12 +37,13 @@ MyTable = {
                 ["nowrap"] = 1,
             },
             {
-                ["type"] = "RadioGroup",            
+                ["type"] = "ComboBox",            
                 ["id"] = "脚本功能",                      
-                ["list"] = "APP,谷歌,火狐",     	 -- 必填，无，多选组合内容
+                ["list"] = "注册--APP,注册--谷歌浏览器,注册--火狐浏览器,注册--safari浏览器,登录--APP,----更多可定制功能----",   
                 ["select"] = "2",                  	 -- 选填，0，默认选中项 id
-                ["images"] = "ins.png,ins2.png,ins3.png", 
+                -- ["images"] = "ins.png,ins2.png,ins3.png", 
                 ["scale"] = 0.15,                    -- 选填，1，图片缩放比例
+                ["width"] = 500,
                 ["countperline"] = 0,			
             },
             {
@@ -96,7 +97,7 @@ MyTable = {
             {
                 ["type"] = "ComboBox",               
                 ["id"] = "使用软件",                  
-                ["list"] = "AXJ,PYAPP,OnePress",
+                ["list"] = "AXJ,PYAPP",
                 ["select"] = 1,
                 ["color"] = "0,0,0",
                 ["align"] = "",           
@@ -203,6 +204,29 @@ MyTable = {
                 ["type"] = "Edit",               
                 ["id"] = "代理链接",                  
                 ["prompt"] = "你的代理链接", 
+                ["kbtype"] = "default",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15,           
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 500,
+                ["nowrap"] = 0,
+            },
+                    {
+                ["type"] = "Label", 
+                ["text"] = "登录文件:",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },
+            {
+                ["type"] = "Edit",               
+                ["id"] = "登录文件路径",  
+                ["text"] = "/private/var/mobile/Media/ces.txt",
+                -- ["prompt"] = "你的账号文件路径", 
                 ["kbtype"] = "default",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           

@@ -36,6 +36,7 @@ local 注册类型 = values.注册类型
 local 邮箱前缀 = values.邮箱前缀
 local 邮箱后缀 = values.邮箱后缀
 local 卸载安装 = values.卸载安装
+local 登录文件路径 = values.登录文件路径
 
 
 require("基础函数")
@@ -86,7 +87,11 @@ function 全局设置()
     end
 
     ----判断密码是否随机----
-    if values.指定密码 == '' then 
+    if values.指定密码 == '' and  values.脚本功能 == '3'  then 
+        mSleep(500)
+    elseif values.指定密码 ~= '' and  values.脚本功能 == '3'  then 
+        mSleep(500)
+    elseif values.指定密码 == '' then 
         toast("密码随机",1)
         mSleep(1000)
     else 
@@ -94,7 +99,11 @@ function 全局设置()
         mSleep(1000)
     end
     ----判断昵称文件是否指定----
-    if values.文件名称 == '' then
+    if values.文件名称 == '' and  values.脚本功能 == '3'  then 
+        mSleep(500)
+    elseif values.文件名称 ~= '' and  values.脚本功能 == '3'  then 
+        mSleep(500)
+    elseif values.文件名称 == '' then
         toast("昵称随机",1)
         mSleep(500)
     else 
@@ -147,7 +156,8 @@ function 流程()
 		mSleep(500)
 		-----------注册主要逻辑程序-----------	
 		全局设置()
-		打开再关闭()
+		打开应用(INS,1000)
+-- 		打开再关闭()
 	--	INS防闪退启动()
 		INSAPP注册()
 		--上传账号()
@@ -159,20 +169,25 @@ function 流程()
 		else
 			mSleep(1000)
 		end
-		
+	elseif  values.脚本功能 == '4' then  	       ----以下是登录账号的主要流程----------
+	    toast("当前功能为APP登号",1)
+        全局设置()
+	   	打开应用(INS,1000)
+	    INS账号登录()
 	else 	                                       -----------以下是浏览器注册账号的主要流程-----------------
 		toast("当前功能为--INS--浏览器注册",1)
 		mSleep(500)
        	全局设置()
-       	-- if  values.使用软件 == '2' then
-       	--     mSleep(1000)
-        -- else
 	   浏览器输入网站()
-	   -- end
 		INS浏览器注册()
 		--全局变量1=1       --注册成功
 		记录账号信息()      --记录注册成功的账号到本地
-		移动cookies()       --移动cookie文件到指定目录  /private/var/mobile/Media/INSCookies
+		if values.脚本功能 == "3" then 
+			mSleep(300)
+		else
+		    移动cookies()     --移动cookie文件到指定目录  /private/var/mobile/Media/INSCookies
+		end
+		
 		if values.上传头像 == 'on' then 
 			设置头像()
 		else
@@ -194,7 +209,11 @@ for var = 1, 注册数量 do
 			end,
 			catchBack = function(exp)
 				--协程异常结束,异常是脚本调用了 throw 激发的，exp 是 table,exp.message 是异常原因
-				toast("超时或者异常")
+				if  values.脚本功能 == '4' then --登录不提示
+				    mSleep(150)
+				else
+				    toast("超时或者异常")
+				end
 			end
 		})
 	mSleep(1000)
@@ -221,6 +240,15 @@ for var = 1, 注册数量 do
 			break
 	    elseif 全局变量1==4 then
 	    	toast('代理网络异常，脚本重新运行',1)
+	    	break
+	    elseif 全局变量1==5 then
+	        toast("账号出现验证，舍弃并重新开始脚本",1)
+	    	break
+	    elseif 全局变量1==6 then
+	        toast("账密错误或封禁，舍弃并重新开始脚本",1)
+	    	break	   
+	    elseif 全局变量1==7 then
+	        toast("登录成功",1)
 	    	break
 		end	    
 		mSleep(5000)
