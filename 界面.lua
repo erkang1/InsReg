@@ -65,6 +65,25 @@ MyTable = {
                 ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
                 ["countperline"] = 0,
             },
+           {
+                ["type"] = "Label",
+                ["align"] = "center",
+                ["text"] = "手机型号:",
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",     
+                ["width"] = -1,
+                ["nowrap"] = 1,
+            },
+            {
+                ["type"] = "RadioGroup",            
+                ["id"] = "手机型号",                      
+                ["list"] = "Iphone-6S,其他型号",      -- 必填，无，多选组合内容
+                ["select"] = "1",                   -- 选填，0，默认选中项 id
+                ["scale"] = 0.4,                    -- 选填，1，图片缩放比例
+                ["countperline"] = 0,
+            },        
             {
                 ["type"] = "Label",
                 ["align"] = "center",
@@ -97,7 +116,7 @@ MyTable = {
             {
                 ["type"] = "ComboBox",               
                 ["id"] = "使用软件",                  
-                ["list"] = "AXJ,PYAPP",
+                ["list"] = "AXJ,PYAPP,内部清理软件",
                 ["select"] = 1,
                 ["color"] = "0,0,0",
                 ["align"] = "",           
@@ -172,7 +191,7 @@ MyTable = {
             {
                 ["type"] = "Label",
                 ["align"] = "center",
-                ["text"] = "手动获取代理:",
+                ["text"] = "在线代理：",
                 ["size"] = 15, 
                 ["align"] = "left",          
                 ["valign"] = "center", 
@@ -181,15 +200,15 @@ MyTable = {
                 ["nowrap"] = 1,
             },
             {
-                ["type"] = "Switch",
-                ["id"] = "手动获取代理",
-                ["size"] = "m",
-                ["align"] = "left",
-                ["valign"] = "top",
-                ["state"] = "off",
-                ["width"] = -1,
+                ["type"] = "ComboBox",               
+                ["id"] = "手动获取代理",                  
+                ["list"] = "账密格式,北鲲云,无账密格式",
+                ["color"] = "0,0,0",
+                ["align"] = "",
+                ["valign"] = "top",   
+                ["width"] = 180,
                 ["nowrap"] = 0,
-            },
+            }, 
             {
                 ["type"] = "Label", 
                 ["text"] = "代理链接:",        
@@ -317,7 +336,7 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "注册间隔",                 
-                ["text"] = "120",
+                ["text"] = "30",
                 ["kbtype"] = "number",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
@@ -339,7 +358,7 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "防卡时间",                  
-                ["text"] = "300",
+                ["text"] = "900",
                 ["kbtype"] = "number",
                 ["color"] = "0,0,0",   
                 ["size"] = 15,           
@@ -493,8 +512,8 @@ MyTable = {
             {
                 ["type"] = "Edit",               
                 ["id"] = "邮箱前缀",                 
-                --["prompt"] = "2000", 
-                ["text"] = "admin",
+                ["prompt"] = "admin", 
+                -- ["text"] = "admin",
                 --["kbtype"] = "number",  
                 ["color"] = "0,0,0",   
                 ["size"] = 15, 
@@ -597,7 +616,7 @@ MyTable = {
             },        
             {
                 ["type"] = "Label", 
-                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上 \n 2、chrome浏览器待更新适配，仅支持火狐浏览器 \n 3、若是邮箱注册，请保证当前时区是美区【洛杉矶】时间 \n 4、【卸载重装功能】请确保【/private/var/mobile/Media/TouchSprite/res】目录下存放了【Firefox.ipa】文件",
+                ["text"] = "说明：\n 1、适配6s/7/8 系统13及以上 \n 2、chrome浏览器待更新适配，仅支持【火狐浏览器】和【safari浏览器】 \n 3、若是邮箱注册，请保证当前时区是美区【洛杉矶】时间 \n 4、【卸载重装功能】请确保【/private/var/mobile/Media/TouchSprite/res】目录下存放了【Firefox.ipa】文件 \n 5、代理不填时默认自动调用SSR",
                 ["size"] = 12, 
                 ["align"] = "left",          
                 ["valign"] = "center", 

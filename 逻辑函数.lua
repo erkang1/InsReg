@@ -163,6 +163,20 @@ function One_Press()
 end
 
 
+function 备份还原清理()
+    关闭应用(INS)
+	打开应用('com.3btest.BackUpApp',2000)
+    local 包名检查 = ocrText(273,118,560,159,0)   --识别com.burbn.instagram文字
+    if 包名检查 == "com.burbn.instagram" then
+        tap(388,601,50,"click_point_5_2.png",1)
+    else
+        dialog("请在备份还原软件内APP包名处选择INS")
+        全局变量1=2
+    end
+    mSleep(3000)
+end
+
+
 
 function INSAPP注册()
 	while (true) do
@@ -542,28 +556,21 @@ end
 function INS浏览器注册()
 	--打开INS应用  自动进入到了INS注册主界面  
     while (true) do
-        -- local 注册1 = ocrText(301,177,445,216,0)   --识别 Register 文字
-        -- local 注册2 = ocrText(112,283,320,308,0)   --识别 Welcome to \   , Welcome to文字
-        -- local 注册2_1,_ = 注册2:gsub("%p","") 
-        -- 注册2_1 = string.sub(注册2_1,1,7)
-        -- --toast(注册2_1,5)
-        -- local Error = ocrText(329,586,429,618,0)   --识别Error文字
-        -- local Error_1,_ = Error:gsub("%p","") 
-        -- Error_1 = string.sub(Error_1,1,5)
-        -- --dialog(Error_1)
-        -- local GoBack = ocrText(310,801,443,831,0)   --识别GoBack文字
-        -- local changeusername = ocrText(242,479,518,517,0)
-        -- local enterconcode = ocrText(179,275,562,301,0) --识别Enter Confirmation Code文字
-        local safari_notcon = ocrText(132,386,614,435,0)   --识别Safari could not open the page文字
+        local safari_notcon = ocrText(132,386,614,435,0)   --识别Safari could not open the page   /  Safari cannot open the page文字
+        local safari_country = ocrText(253,161,503,207,0)   --识别Select Country文字
+        local safari_register = ocrText(302,165,451,207,0)   --识别Register文字
+        local safari_Welcome = ocrText(143,270,280,307,0)   --识别Welcome文字
+        local safari_Change = ocrText(244,476,510,519,0)   --识别Change username文字
+        local safari_story = ocrText(29,384,163,417,0)   --识别Your Story 文字
+        local safari_usernameon = ocrText(172,338,585,378,0)   --识别Find people to follow and start文字
 		local 当前界面=检索界面(INS注册界面列表)
-	--	dialog("text")
 		if  当前界面 == "google浏览器主页界面" then     --输入地址，需要优化
         	mSleep(2000)
             输入文本(357,501,"www.instagram.com")
         	mSleep(1000)
         	tap(646,1289)
         	mSleep(1000)
-		elseif safari_notcon == "Safari could not open the page" then
+		elseif safari_notcon == "Safari could not open the page" or safari_notcon=='Safari cannot open the page' then    --无网络
 		    mSleep(1000)
             全局变量1=4
 		elseif 当前界面 == "INS浏览器注册欢迎界面" then
@@ -579,7 +586,7 @@ function INS浏览器注册()
 		    --tap(注册界面2X,注册界面2Y)
 		    tap(567,1091)
 		    mSleep(1000)
-		elseif 当前界面 == "INS浏览器注册界面" then
+		elseif 当前界面 == "INS浏览器注册界面" or 当前界面 == "浏览器手机号注册界面01" or 当前界面 == "浏览器手机号注册界面02" then
 		    mSleep(200)
             if values.注册类型=="0" then    --邮箱注册
                 toast("脆球邮箱接码")
@@ -601,13 +608,34 @@ function INS浏览器注册()
                 end                
             elseif values.注册类型=="1" then
                 toast("开始手机号接码注册")
+                
+                if  values.手机型号 == '0' then      --判断手机型号，6S设备点击位置不一样
+                        toast("6S型号")
+                        浏览器选择地区输入框X = 268
+                        浏览器选择地区输入框Y = 199
+                else
+                        toast("其他型号")
+                        浏览器选择地区输入框X = 201
+                        浏览器选择地区输入框Y = 263
+                end          
+
+function 手机型号区号点击判断()
+    if  values.手机型号 == '0' then
+        -- tap(163,492,80,"click_point_5_2.png")    --点击选择地区按钮
+        tap(154,552,80,"click_point_5_2.png")       --点击选择地区按钮
+        mSleep(500)
+    else
+        tap(154,552,80,"click_point_5_2.png")    --点击选择地区按钮
+        mSleep(500)
+    end                    
+end
                 if values.号码地区 == '0' then 
-                    tap(154,552)    --点击选择地区按钮
-                    mSleep(500)
-                    if values.脚本功能 =='1' or values.脚本功能 =='3' then 
+                    手机型号区号点击判断()
+                    if values.脚本功能 =='1' or values.脚本功能 =='3' then
                         输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Indonesia")
                         mSleep(2000)
-                        tap(236,447)    --点击印尼
+                        -- tap(236,447)    --点击印尼
+                        tap(219,363)
                         mSleep(500)
                     elseif values.脚本功能 =='2' then 
                         输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"Indonesia")
@@ -615,12 +643,12 @@ function INS浏览器注册()
                         tap(236,373)    --点击印尼
                         mSleep(500)
                     end
-                elseif values.号码地区 == '1' then 
-                    tap(154,552)    --点击选择地区按钮
-                    mSleep(500)
+                elseif values.号码地区 == '1' then
+                    手机型号区号点击判断()
                     if values.脚本功能 =='1' or values.脚本功能 =='3' then 
                         输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Russia")
-                        tap(175,357)    --点击俄罗斯
+                        -- tap(175,357)    --点击俄罗斯
+                        tap(219,363)
                         mSleep(500)
                     elseif values.脚本功能 =='2' then 
                         输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"Russia")
@@ -630,11 +658,11 @@ function INS浏览器注册()
                     end
                     
                 elseif values.号码地区 == '2' then 
-                    tap(154,552)    --点击选择地区按钮
-                    mSleep(500)
+                    手机型号区号点击判断()
                     if values.脚本功能 =='1' or values.脚本功能 =='3' then 
                         输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"United")
-                        tap(402,581)   --点击美国
+                        -- tap(402,581)   --点击美国
+                        tap(219,363)
                         mSleep(500)
                     elseif values.脚本功能 =='2' then 
                         输入文本2(火狐浏览器选择地区输入框X,火狐浏览器选择地区输入框Y,"United")
@@ -644,8 +672,7 @@ function INS浏览器注册()
                     end
                     
                elseif values.号码地区 == '3' then 
-                    tap(154,552)    --点击选择地区按钮
-                    mSleep(500)
+                    手机型号区号点击判断()
                     if values.脚本功能 =='1' or values.脚本功能 =='3' then 
                         输入文本2(浏览器选择地区输入框X,浏览器选择地区输入框Y,"Cambodia")
                         tap(219,363)  --点击 柬埔寨
@@ -669,10 +696,11 @@ function INS浏览器注册()
     			elseif values.接口序=='3' then
     				电话号码=获取手机号和ID4()
     			end
-    			输入文本2(449,546,电话号码)   --inputText 版本
-    			mSleep(1000)
-    			tap(534,697)	--next 按钮
-    			mSleep(5000)
+        			输入文本2(449,546,电话号码)   --inputText 版本
+        			mSleep(1000)
+        			tap(534,697)	--next 按钮
+        			mSleep(5000)
+
     			if (isColor(220, 438, 0xed4956, 90)) then  --环境出错，线程结束并释放号码
                     toast("行为出错，重新开始脚本")
                     mSleep(3000)
@@ -714,7 +742,7 @@ function INS浏览器注册()
     		end
 			mSleep(1000)
 			--dialog("获取到的验证码："..验证码) 
-			输入文本2(355+math.random(1,10),492+math.random(1,10),验证码)
+			输入文本2(355+math.random(1,10),492+math.random(1,10),验证码)   --
 			tap(365,615)
 			mSleep(5000)
             判断是否离开该界面(INS注册界面列表,'INS浏览器接收验证码界面') 
@@ -780,7 +808,16 @@ function INS浏览器注册()
           mSleep(1000)
         elseif  当前界面 == "浏览器确认用户名6" or 当前界面 == "浏览器确认用户名7" then
           tap(438,1004)
-          mSleep(1000)        
+          mSleep(1000) 
+        elseif  当前界面 == "浏览器确认用户名8" then
+          tap(445,885)
+          mSleep(1000)     
+        elseif safari_usernameon == "Find people to follow and start" and isColor(479, 895, 0x0095f6, 90) then
+          tap(435,910)
+          mSleep(1000)
+        elseif safari_register == 'Register' and safari_Welcome == 'Welcome' and safari_Change == 'Change username' and isColor(521, 907, 0x0095f6, 90) then
+          tap(427,895)
+          mSleep(1000)
         elseif  当前界面 == "浏览器长名字界面" then
           tap(426+math.random(0,10),584+math.random(0,10))
           mSleep(1000)  
@@ -940,7 +977,7 @@ function INS浏览器注册()
         --     全局变量1=3
         elseif 当前界面=='未知界面' then
              mSleep(2000)
-        elseif  当前界面 == "INS浏览器个人主页界面" or 当前界面 == "火狐浏览器INS个人主页界面"  or 当前界面 == "INS界面个人主页2" then
+        elseif  当前界面 == "INS浏览器个人主页界面" or 当前界面 == "火狐浏览器INS个人主页界面"  or 当前界面 == "INS界面个人主页2" or safari_story == "Your Story"  then
            --注册完成
            tap(674,1206)
            mSleep(2000)
@@ -1068,7 +1105,13 @@ function INS账号登录()
 	while (true) do
 	    mSleep(3000)
 	    local Error = ocrText(27,473,260,494,0)   --识别 Incorrect nassword. 文字
+	    local Error4 = ocrText(220,547,532,590,0)   --识别Incorrect password文字
 	    local 通知 = ocrText(168,780,318,816,0)   --识别Not now文字
+	    local 验证 = ocrText(184,194,578,254,0)   --识别 Confirm It's You文字
+	    local Error2 = ocrText(318,514,425,557,0)   --识别 Error  文字
+	    local 网络错误 = ocrText(198,606,556,645,0)   --识别 Please check your internet  文字
+	    local Error3 = ocrText(330,551,425,587,0)   --识别 Error  文字
+	    local login = ocrText(330,563,426,597,0)   --识别Log in文字
 		local 当前界面=检索界面(INS登录界面列表)
         if 当前界面 == 'INS注册开屏界面' or 当前界面 == 'APP注册登录开屏界面2' then 
             tap(373,840)
@@ -1076,18 +1119,39 @@ function INS账号登录()
         elseif 当前界面 == 'INS注册登录界面'  then 
             mSleep(1500)
             读取首行()
+            if INS账号 == "" or INS密码=="" then 
+                toast("当前账密格式有误")
+                删除首行()
+            end            
             mSleep(2000)
-            输入文本2(187,481,INS账号)
+            tap(187,481)
             mSleep(1000)
+            if (isColor(658, 278, 0xc7c8c7, 90)) then --如果发现有 × 则点击
+                mSleep(1000)
+                tap(648,279)
+                输入文本2(313,266,INS账号)
+                mSleep(1000)
+            else
+                输入文本2(313,266,INS账号)
+                mSleep(1000)
+            end
+
             输入文本(129,393,INS密码)   
             mSleep(1000)
             tap(581,573)   --点击login
             mSleep(6000)
-        elseif 当前界面 == ' APP登录账号验证界面' then 
+        elseif login == "Log in" and isColor(496, 583, 0x4997fd, 90) then
+            mSleep(1000)
+            tap(581,573)   --点击login
+        elseif 当前界面 == ' APP登录账号验证界面' or  验证 == "Confirm It's You"  then 
             全局变量1=5
             mSleep(2000)
             删除首行()
             mSleep(2000)
+        elseif Error3 == "Error" and 网络错误 == 'Please check your internet' then
+            全局变量1=4
+            -- 删除首行()
+            mSleep(5000)            
         elseif 当前界面 == 'APP用户名错误界面' or 当前界面 == 'APP用户被封禁' or 当前界面 == 'APP错误界面3' then
             mSleep(1000)
             全局变量1=6
@@ -1101,17 +1165,36 @@ function INS账号登录()
         --     删除首行()
         --     全局变量1=7   --登录成功
          end
-        if Error == "Incorrect nassword." then 
+        if Error == "Incorrect nassword." or Error4 == "Incorrect password" then 
             全局变量1=6
             mSleep(2000)
             删除首行()
             mSleep(2000)
         end
+        if Error2 == "Error" then
+            全局变量1=6
+            mSleep(2000)
+            删除首行()   
+        end
+        
         if 通知 == "Not now" then 
             mSleep(1000)
             tap(227,805)
             mSleep(1000)
             删除首行()
+-------------------------------替换钥匙扣步骤开始---------------------------------------            
+            -- if values.使用软件 == '0' then
+            --     移动token文件()
+            -- else
+            --     mSleep(500)
+            -- end
+-------------------------------替换钥匙扣步骤结束---------------------------------------        
+    	    if values.使用软件 == "2" then
+    	        for var=1,3 do
+    	            mSleep(3000)
+    	            toast("正在上传账号")
+    	        end
+    	    end
             全局变量1=7   --登录成功
         end
     end

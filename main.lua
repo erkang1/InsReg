@@ -37,6 +37,7 @@ local 邮箱前缀 = values.邮箱前缀
 local 邮箱后缀 = values.邮箱后缀
 local 卸载安装 = values.卸载安装
 local 登录文件路径 = values.登录文件路径
+local 手机型号 = values.手机型号
 
 
 require("基础函数")
@@ -49,8 +50,8 @@ setAutoLockTime(0)  --防锁屏
 --ui设置
 if UIret == 1 then
 	mSleep(1000)
+	
 function 全局设置()
-
 	---判断是否开启卸载安装--------	
 	if values.卸载安装 == 'on' then
 	    toast("您已经打开【卸载重装功能】，请确保【/private/var/mobile/Media/TouchSprite/res】目录下存放了【TikTok.ipa】文件")	    
@@ -87,9 +88,9 @@ function 全局设置()
     end
 
     ----判断密码是否随机----
-    if values.指定密码 == '' and  values.脚本功能 == '3'  then 
+    if values.指定密码 == '' and  values.脚本功能 == '4'  then 
         mSleep(500)
-    elseif values.指定密码 ~= '' and  values.脚本功能 == '3'  then 
+    elseif values.指定密码 ~= '' and  values.脚本功能 == '4'  then 
         mSleep(500)
     elseif values.指定密码 == '' then 
         toast("密码随机",1)
@@ -99,9 +100,9 @@ function 全局设置()
         mSleep(1000)
     end
     ----判断昵称文件是否指定----
-    if values.文件名称 == '' and  values.脚本功能 == '3'  then 
+    if values.文件名称 == '' and  values.脚本功能 == '4'  then 
         mSleep(500)
-    elseif values.文件名称 ~= '' and  values.脚本功能 == '3'  then 
+    elseif values.文件名称 ~= '' and  values.脚本功能 == '4'  then 
         mSleep(500)
     elseif values.文件名称 == '' then
         toast("昵称随机",1)
@@ -114,7 +115,7 @@ function 全局设置()
 
 
 ---判断代理是否填写  VPN操作--- 
-	if values.手动获取代理 == 'on' then  		--------手动设置S5代理------
+	if values.代理链接~= ""   then  		--------手动设置S5代理------
 		toast("手动设置代理已经开启")
 		mSleep(500)
 		关闭VPN()
@@ -123,7 +124,7 @@ function 全局设置()
 		手动设置代理()
 		--切换VPN()
 		打开VPN()
-		检查代理连通状态()
+-- 		检查代理连通状态()
 	else
 		关闭VPN()
 		切换VPN()
@@ -136,6 +137,16 @@ function 全局设置()
 		启动爱新机()
 		mSleep(1000)
 		一键新机()
+-------------------------------替换钥匙扣步骤---------------------------------------
+-- 		if values.脚本功能 == '4' then --登录则运行命令
+-- 		     toast("开始AXJ登录流程",1)
+-- 		     os.execute("curl 'http://127.0.0.1:12346/clearSandbox'")
+-- 		     mSleep(2000)
+-- 		     复制文件()
+-- 		else
+-- 		    toast("注册流程继续")
+-- 		end
+-------------------------------------------------------------------------------------
 		mSleep(5000)
 	elseif values.使用软件 == '1' then    --PyApp 
 	    PyApp新机坐标版本()
@@ -143,12 +154,14 @@ function 全局设置()
 -- 	elseif values.使用软件 == '2' then     --one_Press
 -- 	    One_Press()
 -- 	    mSleep(1000)
-
+	elseif values.使用软件 == '2' then     --本机备份还原
+	    备份还原清理()
+	    mSleep(1000)
 	else
 		mSleep(1000)
 	end
 end
-
+-----全局设置完结束----------------------------------------------------------------
 
 function 流程()
 	if values.脚本功能 == '0' then 		----以下是APP注册账号的主要流程----------
@@ -177,8 +190,8 @@ function 流程()
 	else 	                                       -----------以下是浏览器注册账号的主要流程-----------------
 		toast("当前功能为--INS--浏览器注册",1)
 		mSleep(500)
-       	全局设置()
-	   浏览器输入网站()
+      	全局设置()
+	    浏览器输入网站()
 		INS浏览器注册()
 		--全局变量1=1       --注册成功
 		记录账号信息()      --记录注册成功的账号到本地

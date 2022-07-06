@@ -246,8 +246,10 @@ function 获取S5代理()
     获取S5接口 = values.代理链接
     -- 获取S5接口 = "http://20.122.103.3:51515/api/v1/getIP?type=text&username=test_99641&protocol=0&region=RU&count=1"  --测试链接
     -- 获取S5接口 = "https://coralip.com/api/v2/getIP?username=pps_erkang&password=pzhuondvwb&protocol=0&count=1&region=&keep_time=2&type=text"     --珊瑚IP
+    
     -- 返回格式1：socks5://test_99641$ifhie8NkW4*US:owrjgdnhg@185.145.128.72:4113
-    -- 返回格式2：3.101.85.252:20089
+    -- 返回格式2：http://139.155.87.202:1688/api/v2/USIP/usip.php                            返回值 3.101.85.252:20089
+    -- 返回格式3：http://129.226.173.62:8888/getport     ip端固定129.226.173.62   端口返回值 {"code":0,"message":"","data":43897}    需要拼接为 IP+端口 填入ssr
     local webdata=httpGet(获取S5接口)
     --dialog(tostring(webdata))
     if tostring(webdata) =='false' then
@@ -258,32 +260,44 @@ function 获取S5代理()
         toast("获取代理失败")
         全局变量1 = 4
     else
-        ------------------    --黄--格式1需要打开   --------------------------------
-        -- local strs1 = webdata:split("//")  --分割前缀
-        -- local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
-        -- local strs3 = strs2[1]:split(":")  --分割账号  密码
-        -- local strs4 = strs2[2]:split(":")  --分割IP 端口
-        -- 代理账号 = strs3[1]
-        -- 代理密码 = strs3[2]
-        -- 代理端口 = strs4[2]
-        -- 代理IP = strs4[1]
-       ------------------------------------------------------------------------------
-       
-       
-        local strs4 = webdata:split(":")  --分割IP 端口
-        代理端口 = tonumber(strs4[2])
+        
+    end    
+    
+    if  values.手动获取代理 == "0" then 
+        ------------------    --黄--格式1需要打开   ----------------------------------
+        local strs1 = webdata:split("//")  --分割前缀
+        local strs2 = strs1[2]:split("@")  --分割账号密码 + IP端口
+        local strs3 = strs2[1]:split(":")  --分割账号  密码
+        local strs4 = strs2[2]:split(":")  --分割IP 端口
+        代理账号 = strs3[1]
+        代理密码 = strs3[2]
+        代理端口 = strs4[2]
         代理IP = strs4[1]
+        ------------------------------------------------------------------------------
+    elseif values.手动获取代理 == "1" then 
+        -- toast("text")
+        local strs6 = webdata:split(":")  --分割IP 端口  --北鲲云
+        代理端口 = tonumber(strs6[2])
+        代理IP = strs6[1]
+    else                                               
+        local strs5 = json.decode(webdata)
+        local ss = ((values.代理链接:split("//")[2]):split("/")[1]):split(":")[1]
+        -- 代理IP = "129.226.173.62"       --自测           http://129.226.173.62:8888/getport?region=US
+        -- 代理IP = "119.28.87.24"         --大有数据       http://119.28.87.24:8888/getport?region=US
+        代理IP = ss
+        代理端口 = strs5.data
+    end
     --dialog("账号密码："..strs2[1].."IP端口"..strs2[2])
     --dialog("账号:"..strs3[1].."密码："..strs3[2])
-    --dialog("IP:"..strs4[1].."端口:"..strs4[2])
-    end
+    --dialog("IP:"..strs4[1].."端口:"..strs4[2])   
+    --dialog("IP："..代理IP.."端口："..代理端口)
 end
 
 function 手动设置代理()
     关闭应用("com.liguangming.Shadowrocket")
     mSleep(500)
     打开应用("com.liguangming.Shadowrocket",500)
-    mSleep(1000)
+    mSleep(3000)
     tap(695,82,80,"click_point_5_2.png",1)  --点击加号
     mSleep(1000)
     tap(485,208,80,"click_point_5_2.png",1)  --点击类型
@@ -293,30 +307,30 @@ function 手动设置代理()
     -- 开始输入
     -- tap(226,360) --点击地址
     -- dialog(代理IP)
-    获取S5代理()
+    -- 获取S5代理()
     输入文本2(226,360,代理IP)
     mSleep(500)
-    
+
     tap(220,455)
     mSleep(1000)
     小键盘输入(代理端口)
-    
-    -- dialog(代理端口)
-    -- 输入文本2(220,455,代理端口)    --黄--格式需要打开
     mSleep(500)
     -- dialog(代理账号)
-    -- 输入文本2(304,542,代理账号)    --黄--格式需要打开
-    -- mSleep(500)
-    -- dialog(代理密码)
-    -- 输入文本2(221,623,代理密码)    --黄--格式需要打开
-    -- mSleep(500)
+    if  values.手动获取代理 == 0 then 
+        输入文本2(304,542,代理账号)    --黄--格式需要打开
+        mSleep(500)
+        -- dialog(代理密码)
+        输入文本2(221,623,代理密码)    --黄--格式需要打开
+        mSleep(500)
+    end
     tap( 680,83) -- 点击完成
 end
 
 function 检查代理连通状态()
-    for var= 1,10 do
-        local webdata = httpGet("http://www.google.com/")              --获取谷歌网页数据
+    for var= 1,15 do
+        local webdata = httpGet("http://www.google.com/")               --获取谷歌网页数据
         toast(tostring(webdata).."，网络无法连接，正在重试...")
+        mSleep(3000)
         if  webdata and webdata ~= "" then
             toast("网络正常，开始运行")
             break
@@ -337,13 +351,13 @@ function 删除手动设置的代理()
     else
         关闭应用("com.liguangming.Shadowrocket")
         mSleep(1000)
-        打开应用("com.liguangming.Shadowrocket",500)
-        mSleep(1000)
+        打开应用("com.liguangming.Shadowrocket",1000)
+        mSleep(3000)
         moveTo(552,  553,486,  548,{["step"] = 30,["ms"] = 70,["index"] = 1,["stop"] = 1})  --滑动显示删除
         mSleep(1000)
-        tap(  641,  555)  --滑动之后点击删除
+        tap(641,  555)  --滑动之后点击删除
         mSleep(1000)
-        tap( 510,  763) --点击删除
+        tap( 510,  763) --确认删除
         mSleep(2000)
     end
 end
@@ -591,7 +605,7 @@ function 获取手机号和ID2()
             dialog('余额不足')
             lua_exit()
         else
-            toast('获取手机号失败',3)
+            toast('获取手机号失败,请检查密钥和项目ID',3)
             mSleep(2000)
             全局变量1=4
            -- mSleep(3000)
@@ -1096,6 +1110,7 @@ function 移动cookies()
 end
 
 
+
 ----------本地文件登录处理------------------
 --读取账号和密码   --将指定文件中的内容按行读取  分隔符 “ | ”
 local ts = require("ts")
@@ -1175,4 +1190,80 @@ function 删除首行()
 			文件替换:close()
 		end
 	end
+end
+
+
+----------------移动token文件-----------------------
+function 移动token文件()    
+    function getList(path)                    --遍历文件夹内容
+        local a = io.popen("ls "..path);
+        local f = {};
+        for l in a:lines() do
+            table.insert(f,l)
+        end
+        a:close()
+        return f
+    end
+    
+    list = getList('/private/var/mobile/FFFaker/Instagram/');    --路径写死
+    if #list > 0 then
+        for  i=1, #list,1  do
+            toast(list[i])    --获取文件名称
+        end
+    else
+        dialog("文件夹路径不存在")
+    end
+    
+    local  token文件 = list[1] 
+    toast(token文件)
+  
+  
+    creatflag = ts.hlfs.makeDir('/private/var/mobile/Media/INSTokens/')  --新建文件夹
+  
+    function movefile(path,to)
+        os.execute("mv "..path.." "..to);    --移动文件shell命令
+    end
+    
+    --1、检测指定文件是否存在
+    function file_exists(file_name)
+        local f = io.open(file_name, "r")
+        return f ~= nil and f:close()
+    end
+    
+    --定义token文件的保存路径
+    oldpath = '/private/var/mobile/FFFaker/Instagram/'..token文件
+    -- dialog(oldpath)
+    newpath = '/private/var/mobile/Media/INSTokens/'..INS账号..'----'..token文件    --新文件前缀+文件名称
+    -- dialog(newpath)
+    bool = file_exists(oldpath)
+    if bool then
+        mSleep(2000)
+        movefile(oldpath,newpath)
+        toast("Token文件已经保存")
+    else
+        dialog("文件不存在")
+    end
+end
+
+
+
+function 复制文件()
+    oldpath = "/private/var/mobile/Media/keychain-2.db"
+    newpath = "/private/var/Keychains/keychain-2.db"
+    --检测指定文件是否存在
+    function file_exists(file_name)
+        local f = io.open(file_name, "r")
+        return f ~= nil and f:close()
+    end
+    --复制文件
+    function copyfile(path,to)
+        os.execute("cp -rf "..path.." "..to);
+    end
+    bool = file_exists("/private/var/mobile/Media/keychain-2.db")
+    if bool then
+        copyfile(oldpath,newpath)
+        toast("keychain-2.db文件已经复制")
+    else
+        dialog("文件不存在",0)
+    end
 end
