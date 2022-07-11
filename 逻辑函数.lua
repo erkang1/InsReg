@@ -166,13 +166,21 @@ end
 function 备份还原清理()
     关闭应用(INS)
 	打开应用('com.3btest.BackUpApp',2000)
-    local 包名检查 = ocrText(273,118,560,159,0)   --识别com.burbn.instagram文字
-    if 包名检查 == "com.burbn.instagram" then
-        tap(388,601,50,"click_point_5_2.png",1)
-    else
-        dialog("请在备份还原软件内APP包名处选择INS")
-        全局变量1=2
-    end
+    toast("关闭重新打开")
+	mSleep(1000)
+	关闭应用("com.3btest.BackUpApp")	    --避免出现 连接服务器失败导致无法清理的问题
+	打开应用('com.3btest.BackUpApp',2000)
+	mSleep(2000)
+    tap(388,601,50,"click_point_5_2.png",1)
+    -- local 包名检查 = ocrText(273,118,560,159,0)   --识别com.burbn.instagram文字   如果不是ins  就停止脚本并给提示
+    -- -- nLog(包名检查)
+    -- if 包名检查 == "com.burbn.instagram" then
+    --     mSleep(2000)
+    --     tap(388,601,50,"click_point_5_2.png",1)
+    -- else
+    --     dialog("请在备份还原软件内APP包名处选择INS")
+    --     全局变量1=2
+    -- end
     mSleep(3000)
 end
 
@@ -259,7 +267,7 @@ function INSAPP注册()
 			mSleep(5000)
 			判断是否离开该界面(INS注册界面列表,'INS注册手机号界面')
 			
-		elseif 当前界面 == "INS注册验证码界面" or app_reg =="Enter the Code We Sent to" then
+		elseif 当前界面 == "INS注册验证码界面" or app_reg =="Enter the Code We Sent to"  then
 			mSleep(1000)
 			local 验证码
 			for var= 1,7 do
@@ -563,6 +571,8 @@ function INS浏览器注册()
         local safari_Change = ocrText(244,476,510,519,0)   --识别Change username文字
         local safari_story = ocrText(29,384,163,417,0)   --识别Your Story 文字
         local safari_usernameon = ocrText(172,338,585,378,0)   --识别Find people to follow and start文字
+        local safari_enterusername = ocrText(194,274,556,312,0)   --识别Enter name and password文字
+        local safari_day = ocrText(242,492,513,537,0)   --识别Add Your Birthday文字
 		local 当前界面=检索界面(INS注册界面列表)
 		if  当前界面 == "google浏览器主页界面" then     --输入地址，需要优化
         	mSleep(2000)
@@ -586,7 +596,7 @@ function INS浏览器注册()
 		    --tap(注册界面2X,注册界面2Y)
 		    tap(567,1091)
 		    mSleep(1000)
-		elseif 当前界面 == "INS浏览器注册界面" or 当前界面 == "浏览器手机号注册界面01" or 当前界面 == "浏览器手机号注册界面02" then
+		elseif 当前界面 == "INS浏览器注册界面" or 当前界面 == "浏览器手机号注册界面01" or 当前界面 == "浏览器手机号注册界面02"  then
 		    mSleep(200)
             if values.注册类型=="0" then    --邮箱注册
                 toast("脆球邮箱接码")
@@ -708,7 +718,7 @@ end
     			end
             end
 			判断是否离开该界面(INS注册界面列表,'INS浏览器注册界面')
-		elseif 当前界面 == "INS浏览器接收验证码界面"  then
+		elseif 当前界面 == "INS浏览器接收验证码界面" or 当前界面 == "INS注册验证码界面2"  then
 		    mSleep(2000)
 		    for var=1,10 do
 		        if (isColor(290, 448, 0xed4956, 90)) then
@@ -746,7 +756,7 @@ end
 			tap(365,615)
 			mSleep(5000)
             判断是否离开该界面(INS注册界面列表,'INS浏览器接收验证码界面') 
-        elseif  当前界面 == "INS浏览器设置用户名界面" then
+        elseif  当前界面 == "INS浏览器设置用户名界面" or safari_enterusername == "Enter name and password" then
             if values.文件名称 == '' then
                 mSleep(500)
                 --dialog("xxxxx")
@@ -764,7 +774,7 @@ end
             mSleep(1000)
             tap(361+math.random(1,10),620+math.random(1,10))
             mSleep(2000)
-        elseif  当前界面 == "INS浏览器设置生日界面" then
+        elseif  当前界面 == "INS浏览器设置生日界面" or safari_day == "Add Your Birthday" then
 	        --点击年月日开始选择生日
 	        mSleep(500)
 	        tap(210,694) --点击月
@@ -1101,6 +1111,7 @@ end
 end
 
 
+
 function INS账号登录()
 	while (true) do
 	    mSleep(3000)
@@ -1109,14 +1120,17 @@ function INS账号登录()
 	    local 通知 = ocrText(168,780,318,816,0)   --识别Not now文字
 	    local 验证 = ocrText(184,194,578,254,0)   --识别 Confirm It's You文字
 	    local Error2 = ocrText(318,514,425,557,0)   --识别 Error  文字
-	    local 网络错误 = ocrText(198,606,556,645,0)   --识别 Please check your internet  文字
-	    local Error3 = ocrText(330,551,425,587,0)   --识别 Error  文字
-	    local login = ocrText(330,563,426,597,0)   --识别Log in文字
+	    local 网络错误 = ocrText(198,606,556,645,0)   --识别Please check your internet文字
+	    local Error3 = ocrText(330,551,425,587,0)   --识别Error文字
+	    local login = ocrText(330,563,426,597,0)    --识别Log in文字
+	    local 封禁 = ocrText(54,222,697,285,0)   --识别We suspended your account文字
+	    local 禁用 = ocrText(143,550,563,582,0)   --识别Your account has been disabled文字
+	    local Error4 = ocrText(328,485,424,522,0) --识别Error文字
 		local 当前界面=检索界面(INS登录界面列表)
-        if 当前界面 == 'INS注册开屏界面' or 当前界面 == 'APP注册登录开屏界面2' then 
+        if 当前界面 == 'INS注册开屏界面' or 当前界面 == 'APP注册登录开屏界面2' or 当前界面 == 'APP注册登录界面3' then 
             tap(373,840)
             mSleep(1000)
-        elseif 当前界面 == 'INS注册登录界面'  then 
+        elseif 当前界面 == 'INS注册登录界面' or 当前界面 == 'APP登录输入账密界面' then
             mSleep(1500)
             读取首行()
             if INS账号 == "" or INS密码=="" then 
@@ -1151,20 +1165,19 @@ function INS账号登录()
         elseif Error3 == "Error" and 网络错误 == 'Please check your internet' then
             全局变量1=4
             -- 删除首行()
-            mSleep(5000)            
-        elseif 当前界面 == 'APP用户名错误界面' or 当前界面 == 'APP用户被封禁' or 当前界面 == 'APP错误界面3' then
+            mSleep(5000)       
+        elseif Error4 == 'Error' and 禁用 == 'Your account has been disabled' then
+            全局变量1=6
+            mSleep(2000)
+            删除首行()
+            mSleep(2000)        
+        elseif 当前界面 == 'APP用户名错误界面' or 当前界面 == 'APP用户被封禁' or 当前界面 == 'APP错误界面3' or 封禁 == 'We suspended your account' then
             mSleep(1000)
             全局变量1=6
             mSleep(2000)
             删除首行()
             mSleep(2000)
-        -- elseif 当前界面 == 'APP登录个人主页' then  
-        --     mSleep(1000)
-        --     tap(227,805)
-        --     mSleep(1000)
-        --     删除首行()
-        --     全局变量1=7   --登录成功
-         end
+        end
         if Error == "Incorrect nassword." or Error4 == "Incorrect password" then 
             全局变量1=6
             mSleep(2000)
@@ -1182,6 +1195,17 @@ function INS账号登录()
             tap(227,805)
             mSleep(1000)
             删除首行()
+    	    if values.使用软件 == "2" then
+    	        for var=1,3 do
+    	            mSleep(3000)
+    	            toast("正在上传账号")
+    	        end
+    	    end
+            全局变量1=7   --登录成功  
+            return true
+        elseif 当前界面 == 'APP登录个人主页' or 当前界面 == 'APP登录个人主页界面2' or 当前界面 == 'APP登录个人主页03' or 当前界面 == 'APP登录个人主页04'  then 
+            mSleep(1000)
+            删除首行()
 -------------------------------替换钥匙扣步骤开始---------------------------------------            
             -- if values.使用软件 == '0' then
             --     移动token文件()
@@ -1196,6 +1220,7 @@ function INS账号登录()
     	        end
     	    end
             全局变量1=7   --登录成功
+            return true
         end
     end
 end
