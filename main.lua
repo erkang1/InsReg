@@ -157,6 +157,9 @@ function 全局设置()
 	elseif values.使用软件 == '2' then     --本机备份还原
 	    备份还原清理()
 	    mSleep(1000)
+-- 	    启动爱新机()
+-- 		mSleep(1000)
+-- 		一键新机()
 	else
 		mSleep(1000)
 	end

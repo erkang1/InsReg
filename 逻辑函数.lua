@@ -171,7 +171,8 @@ function 备份还原清理()
 	关闭应用("com.3btest.BackUpApp")	    --避免出现 连接服务器失败导致无法清理的问题
 	打开应用('com.3btest.BackUpApp',2000)
 	mSleep(2000)
-    tap(388,601,50,"click_point_5_2.png",1)
+    -- tap(388,601,50,"click_point_5_2.png",1)   --旧版本
+    tap(381,418,50,"click_point_5_2.png",1) 
     -- local 包名检查 = ocrText(273,118,560,159,0)   --识别com.burbn.instagram文字   如果不是ins  就停止脚本并给提示
     -- -- nLog(包名检查)
     -- if 包名检查 == "com.burbn.instagram" then
@@ -987,7 +988,7 @@ end
         --     全局变量1=3
         elseif 当前界面=='未知界面' then
              mSleep(2000)
-        elseif  当前界面 == "INS浏览器个人主页界面" or 当前界面 == "火狐浏览器INS个人主页界面"  or 当前界面 == "INS界面个人主页2" or safari_story == "Your Story"  then
+        elseif  当前界面 == "INS浏览器个人主页界面" or 当前界面 == "火狐浏览器INS个人主页界面"  or 当前界面 == "INS界面个人主页2" or  当前界面 == "INS浏览器个人主页界面004" then
            --注册完成
            tap(674,1206)
            mSleep(2000)
@@ -996,6 +997,17 @@ end
         else
 
         end
+        
+        if safari_story == "Your Story"  then
+           --注册完成
+           tap(674,1206)
+           mSleep(2000)
+           全局变量1=1   --注册成功
+           break   
+        else
+         
+        end
+       
         local erol =  ocrText(247,600,515,630,0)
         if erol == "Couldn't Create" then
           全局变量1=3
@@ -1111,12 +1123,11 @@ end
 end
 
 
-
 function INS账号登录()
 	while (true) do
 	    mSleep(3000)
 	    local Error = ocrText(27,473,260,494,0)   --识别 Incorrect nassword. 文字
-	    local Error4 = ocrText(220,547,532,590,0)   --识别Incorrect password文字
+	    local Error5 = ocrText(220,547,532,590,0)   --识别Incorrect password文字
 	    local 通知 = ocrText(168,780,318,816,0)   --识别Not now文字
 	    local 验证 = ocrText(184,194,578,254,0)   --识别 Confirm It's You文字
 	    local Error2 = ocrText(318,514,425,557,0)   --识别 Error  文字
@@ -1126,8 +1137,10 @@ function INS账号登录()
 	    local 封禁 = ocrText(54,222,697,285,0)   --识别We suspended your account文字
 	    local 禁用 = ocrText(143,550,563,582,0)   --识别Your account has been disabled文字
 	    local Error4 = ocrText(328,485,424,522,0) --识别Error文字
+	    local 用户名错误 = ocrText(155,664,422,690,0)   --识别check your username文字
+	    local 用户名错误2 = ocrText(212,517,535,552,0)   --识别Incorrect Username文字
 		local 当前界面=检索界面(INS登录界面列表)
-        if 当前界面 == 'INS注册开屏界面' or 当前界面 == 'APP注册登录开屏界面2' or 当前界面 == 'APP注册登录界面3' then 
+        if 当前界面 == 'INS注册开屏界面' or 当前界面 == 'APP注册登录开屏界面2' or 当前界面 == 'APP注册登录界面3' or 当前界面=='APP登录注册界面' then 
             tap(373,840)
             mSleep(1000)
         elseif 当前界面 == 'INS注册登录界面' or 当前界面 == 'APP登录输入账密界面' then
@@ -1157,7 +1170,7 @@ function INS账号登录()
         elseif login == "Log in" and isColor(496, 583, 0x4997fd, 90) then
             mSleep(1000)
             tap(581,573)   --点击login
-        elseif 当前界面 == ' APP登录账号验证界面' or  验证 == "Confirm It's You"  then 
+        elseif 当前界面 == ' APP登录账号验证界面' or  验证 == "Confirm It's You" then 
             全局变量1=5
             mSleep(2000)
             删除首行()
@@ -1171,14 +1184,22 @@ function INS账号登录()
             mSleep(2000)
             删除首行()
             mSleep(2000)        
-        elseif 当前界面 == 'APP用户名错误界面' or 当前界面 == 'APP用户被封禁' or 当前界面 == 'APP错误界面3' or 封禁 == 'We suspended your account' then
+        elseif 当前界面 == 'APP用户被封禁' or 当前界面 == 'APP错误界面3' or 封禁 == 'We suspended your account'  then
             mSleep(1000)
             全局变量1=6
             mSleep(2000)
             删除首行()
             mSleep(2000)
+        elseif  用户名错误 == 'check your username' or 用户名错误2 == 'Incorrect Username' or 当前界面 == 'APP用户名错误界面' then
+            mSleep(1000)
+            toast("账密错误!，正在记录账号信息")
+            记录账号信息()
+            全局变量1=6
+            mSleep(2000)
+            删除首行()
+            mSleep(2000)
         end
-        if Error == "Incorrect nassword." or Error4 == "Incorrect password" then 
+        if Error == "Incorrect nassword." or Error5 == "Incorrect password" then 
             全局变量1=6
             mSleep(2000)
             删除首行()

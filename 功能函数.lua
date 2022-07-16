@@ -1057,9 +1057,16 @@ if values.注册类型 =="1" then
 	--dialog("电话号码:"..电话号码)
 elseif values.注册类型 =="0" then
     记录内容 = tostring(返回邮箱号码).."----".. tostring(名字).."----".. tostring(密码).."----".. "当前设备的时间：".. tostring(时间)
+elseif values.注册类型 =="2"  then
+    记录内容 = tostring(INS账号).."----".. tostring(INS密码)
 end
 	mSleep(1000)
-	记录数据('INS--已注册手机号.log',记录内容)
+	if  values.脚本功能 == '4' then
+	    记录数据('INS--账密错误账号.log',记录内容)
+	else
+	    记录数据('INS--已注册手机号.log',记录内容)
+	end
+	
 	toast("已经记录信息")
 	mSleep(2000)
 end
