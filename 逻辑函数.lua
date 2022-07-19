@@ -1218,7 +1218,7 @@ function INS账号登录()
             删除首行()
     	    if values.使用软件 == "2" then
     	        for var=1,3 do
-    	            mSleep(3000)
+    	            mSleep(5000)
     	            toast("正在上传账号")
     	        end
     	    end
@@ -1236,7 +1236,7 @@ function INS账号登录()
 -------------------------------替换钥匙扣步骤结束---------------------------------------        
     	    if values.使用软件 == "2" then
     	        for var=1,3 do
-    	            mSleep(3000)
+    	            mSleep(5000)
     	            toast("正在上传账号")
     	        end
     	    end

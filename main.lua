@@ -38,7 +38,7 @@ local 邮箱后缀 = values.邮箱后缀
 local 卸载安装 = values.卸载安装
 local 登录文件路径 = values.登录文件路径
 local 手机型号 = values.手机型号
-
+local 上传地址 = values.上传地址
 
 require("基础函数")
 require("功能函数")
@@ -163,6 +163,23 @@ function 全局设置()
 	else
 		mSleep(1000)
 	end
+	
+-------上传地址--------------------------------------------------------------------------------------------
+if values.上传地址 ~="" and values.脚本功能 == "4" then
+    local 上传token链接 = appDataPath("com.burbn.instagram")  
+    -- dialog(上传token链接)
+    local 上传地址 = 上传token链接.."/tmp/serverurl.txt"
+    local 记录内容 = values.上传地址
+    local bool = writeFileString(上传地址,记录内容,"a",2)    --将 string 内容存入文件，成功返回 true  2--非1不换行
+    if bool then	
+    	toast('上传地址文件已经成功保存',1)
+    else
+        toast("文件保存失败")
+    end  
+else
+    toast("未输入上传链接")
+end
+
 end
 -----全局设置完结束----------------------------------------------------------------
 

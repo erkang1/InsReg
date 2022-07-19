@@ -202,7 +202,7 @@ MyTable = {
             {
                 ["type"] = "ComboBox",               
                 ["id"] = "手动获取代理",                  
-                ["list"] = "账密格式,北鲲云,无账密格式",
+                ["list"] = "账密格式,北鲲云-在线,无账密格式,北鲲云-本地",
                 ["color"] = "0,0,0",
                 ["align"] = "",
                 ["valign"] = "top",   
@@ -628,6 +628,39 @@ MyTable = {
         {
             {
                 ["type"] = "Label", 
+                ["text"] = "登录上传地址设置",        
+                ["size"] = 18, 
+                ["align"] = "left",
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",
+                ["width"] = -1,
+                ["nowrap"] = 0,--下个控件换行
+            },	            
+            {
+                ["type"] = "Label", 
+                ["text"] = "账号上传：",        
+                ["size"] = 15, 
+                ["align"] = "left",          
+                ["valign"] = "center", 
+                ["color"] = "0,0,0",           
+                ["width"] = -1,
+                ["nowrap"] = 1,--下个控件不换行
+            },	       
+            {
+                ["type"] = "Edit",               
+                ["id"] = "上传地址",
+                -- ["text"] = "https://ins.ijinchu.com/api/v1/token/dealer/dealer1",
+                ["prompt"] = "https://ikuajing.vip/api/v1/token/dealer/", 
+                ["kbtype"] = "default",  
+                ["color"] = "0,0,0",   
+                ["size"] = 15,           
+                ["align"] = "",           
+                ["valign"] = "top",   
+                ["width"] = 500,
+                ["nowrap"] = 0,
+            },
+            {
+                ["type"] = "Label", 
                 ["text"] = "用户名自定义",        
                 ["size"] = 18, 
                 ["align"] = "left",          
@@ -709,9 +742,8 @@ MyTable = {
                 ["valign"] = "center", 
                 ["color"] = "255,140,0",           
                 ["width"] = -1,
-                ["nowrap"] = 1,--下个控件不换行
-            },	
-			
+                ["nowrap"] = 0,--下个控件不换行
+            },
         },
 
         {			

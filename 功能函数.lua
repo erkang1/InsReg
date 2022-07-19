@@ -279,13 +279,15 @@ function 获取S5代理()
         local strs6 = webdata:split(":")  --分割IP 端口  --北鲲云
         代理端口 = tonumber(strs6[2])
         代理IP = strs6[1]
-    else                                               
+    elseif values.手动获取代理 == "2" then                                                 
         local strs5 = json.decode(webdata)
         local ss = ((values.代理链接:split("//")[2]):split("/")[1]):split(":")[1]
         -- 代理IP = "129.226.173.62"       --自测           http://129.226.173.62:8888/getport?region=US
         -- 代理IP = "119.28.87.24"         --大有数据       http://119.28.87.24:8888/getport?region=US
         代理IP = ss
         代理端口 = strs5.data
+    else
+        
     end
     --dialog("账号密码："..strs2[1].."IP端口"..strs2[2])
     --dialog("账号:"..strs3[1].."密码："..strs3[2])
