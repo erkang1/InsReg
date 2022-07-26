@@ -172,7 +172,8 @@ function 备份还原清理()
 	打开应用('com.3btest.BackUpApp',2000)
 	mSleep(2000)
     -- tap(388,601,50,"click_point_5_2.png",1)   --旧版本
-    tap(381,418,50,"click_point_5_2.png",1) 
+    -- tap(381,418,50,"click_point_5_2.png",1) --2.0.5版本
+    tap(389,478,50,"click_point_5_2.png",1) --2.0.10版本
     -- local 包名检查 = ocrText(273,118,560,159,0)   --识别com.burbn.instagram文字   如果不是ins  就停止脚本并给提示
     -- -- nLog(包名检查)
     -- if 包名检查 == "com.burbn.instagram" then

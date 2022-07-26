@@ -142,7 +142,7 @@ function 全局设置()
 -- 		     toast("开始AXJ登录流程",1)
 -- 		     os.execute("curl 'http://127.0.0.1:12346/clearSandbox'")
 -- 		     mSleep(2000)
--- 		     复制文件()
+-- 		     复制文件("/private/var/mobile/Media/keychain-2.db","/private/var/Keychains/keychain-2.db")
 -- 		else
 -- 		    toast("注册流程继续")
 -- 		end
@@ -215,10 +215,15 @@ function 流程()
 		INS浏览器注册()
 		--全局变量1=1       --注册成功
 		记录账号信息()      --记录注册成功的账号到本地
-		if values.脚本功能 == "3" then 
-			mSleep(300)
+		if values.脚本功能 ~= "3" then 
+		     if values.脚本功能 == '1' then
+		        浏览器数据路径 = appDataPath("com.google.chrome.ios")..'Library/Cookies'..'/Cookies.binarycookies'      
+		     elseif values.脚本功能 == '2' then
+		        浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")..'Library/Cookies'..'/Cookies.binarycookies'      
+		     end
+		    移动文件("/private/var/mobile/Media/INSCookies/",浏览器数据路径,'/private/var/mobile/Media/INSCookies/'..名字..'.binarycookies')     --移动cookie文件到指定目录  /private/var/mobile/Media/INSCookies
 		else
-		    移动cookies()     --移动cookie文件到指定目录  /private/var/mobile/Media/INSCookies
+            mSleep(500)
 		end
 		
 		if values.上传头像 == 'on' then 
@@ -259,10 +264,14 @@ for var = 1, 注册数量 do
 		--toast('防卡倒计时：'..防卡倒计时..'秒',1)
 		mSleep(2000)
 		if 全局变量1==1 then
-			toast('注册成功，重新计时',1)
-			--停止脚本
-			--lua_exit()
-			toast('注册成功等待'..((注册等待/1000)/60)..'分钟')
+		    local 计时单位 
+		    if tonumber(values.注册间隔) < 60 then
+		        计时单位 = "秒"
+		        toast('注册成功，重新计时，等待'.. values.注册间隔 ..计时单位,1)
+		    else
+		        计时单位 = "分钟"
+		        toast('注册成功，重新计时，等待'..((注册等待/1000)/60)..计时单位,1)
+		    end
 			mSleep(注册等待)   -- 注册完成等待
 			break
 		elseif 全局变量1==2 then

@@ -1074,11 +1074,51 @@ end
 end
 --修改格式为“----”  2022-06-11 更新
 
--------------移动cookies文件------------
-function 移动cookies()
+-- function 移动cookies()
+--     creatflag = ts.hlfs.makeDir('/private/var/mobile/Media/INSCookies/')  --新建文件夹
+--     function movefile(path,to)
+--         os.execute("mv "..path.." "..to);
+--     end
     
-    creatflag = ts.hlfs.makeDir('/private/var/mobile/Media/INSCookies/')  --新建文件夹
+--     --1、检测指定文件是否存在
+--     function file_exists(file_name)
+--         local f = io.open(file_name, "r")
+--         return f ~= nil and f:close()
+--     end
     
+--     --定义cookies文件的保存路径
+--         local 老路径
+--         if values.脚本功能 == '1' then
+--             谷歌浏览器数据路径 = appDataPath("com.google.chrome.ios")  
+--             谷歌浏览器cookie文件路径 = 谷歌浏览器数据路径..'Library/Cookies'
+--             老路径 = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
+--         elseif values.脚本功能 == '2' then 
+--             火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")
+--             火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'/Library/Cookies'
+--             老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
+--         else
+--             mSleep(1000)
+--             dialog("暂时不支持此类型")
+--         end
+    
+--     oldpath = 老路径
+--     -- newpath = '/private/var/mobile/Media/INSCookies/'..随机用户名()..'.binarycookies'
+--     -- dialog(名字)
+--     newpath = '/private/var/mobile/Media/INSCookies/'..名字..'.binarycookies'
+--     bool = file_exists(oldpath)
+--     if bool then
+--         mSleep(2000)
+--         movefile(oldpath,newpath)
+--         toast("cookies文件已经保存")
+--     else
+--         dialog("文件不存在")
+--     end
+-- end
+
+
+-------------移动文件方法------------
+function 移动文件(新建文件路径,oldpath,newpath)
+    creatflag = ts.hlfs.makeDir(新建文件路径)  --新建文件夹
     function movefile(path,to)
         os.execute("mv "..path.." "..to);
     end
@@ -1088,26 +1128,8 @@ function 移动cookies()
         local f = io.open(file_name, "r")
         return f ~= nil and f:close()
     end
-    
-    --定义cookies文件的保存路径
-        local 老路径
-        if values.脚本功能 == '1' then
-            谷歌浏览器数据路径 = appDataPath("com.google.chrome.ios")  
-            谷歌浏览器cookie文件路径 = 谷歌浏览器数据路径..'Library/Cookies'
-            老路径 = 谷歌浏览器cookie文件路径..'/Cookies.binarycookies'
-        elseif values.脚本功能 == '2' then 
-            火狐浏览器数据路径 = appDataPath("org.mozilla.ios.Firefox")
-            火狐浏览器cookie文件路径 = 火狐浏览器数据路径..'/Library/Cookies'
-            老路径 = 火狐浏览器cookie文件路径..'/Cookies.binarycookies'
-        else
-            mSleep(1000)
-            dialog("暂时不支持此类型")
-        end
-    
-    oldpath = 老路径
-    -- newpath = '/private/var/mobile/Media/INSCookies/'..随机用户名()..'.binarycookies'
-    -- dialog(名字)
-    newpath = '/private/var/mobile/Media/INSCookies/'..名字..'.binarycookies'
+    -- oldpath = 老路径
+    -- newpath = '/private/var/mobile/Media/INSCookies/'..名字..'.binarycookies'
     bool = file_exists(oldpath)
     if bool then
         mSleep(2000)
@@ -1117,7 +1139,6 @@ function 移动cookies()
         dialog("文件不存在")
     end
 end
-
 
 
 ----------本地文件登录处理------------------
@@ -1202,7 +1223,9 @@ function 删除首行()
 end
 
 
-----------------移动token文件-----------------------
+
+
+----------------移动token文件-----------------------      --当前为写死，可定义为方法
 function 移动token文件()    
     function getList(path)                    --遍历文件夹内容
         local a = io.popen("ls "..path);
@@ -1256,9 +1279,7 @@ end
 
 
 
-function 复制文件()
-    oldpath = "/private/var/mobile/Media/keychain-2.db"
-    newpath = "/private/var/Keychains/keychain-2.db"
+function 复制文件(oldpath,newpath)   --定义方法，输入文件路径  --String  例如 ： 复制文件("/private/var/mobile/Media/keychain-2.db","/private/var/Keychains/keychain-2.db")
     --检测指定文件是否存在
     function file_exists(file_name)
         local f = io.open(file_name, "r")
@@ -1268,10 +1289,10 @@ function 复制文件()
     function copyfile(path,to)
         os.execute("cp -rf "..path.." "..to);
     end
-    bool = file_exists("/private/var/mobile/Media/keychain-2.db")
+    bool = file_exists(oldpath)
     if bool then
         copyfile(oldpath,newpath)
-        toast("keychain-2.db文件已经复制")
+        toast("文件已经复制")
     else
         dialog("文件不存在",0)
     end
